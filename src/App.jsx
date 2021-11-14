@@ -169,6 +169,8 @@ const MainSection = () => {
   return (
     <section className="main-section">
       <h3>{`Semester ${tahun_ajar} ${semester}`}</h3>
+<Alert hidden={!showAlert} onClose={() => setShowAlert(false)} dismissible={!loading} variant={response.variantAlert} className="mt-4">{response.response}</Alert>
+
       <Form className="mb-4" onSubmit={handleSubmit} >
         <FormInput placeholder="Masukkan NIM" hidden="text">NIM</FormInput>
         <FormInput placeholder="Masukkan Password" hidden="password">Password</FormInput>
@@ -196,8 +198,7 @@ const MainSection = () => {
         </Form.Group>
         <Button variant="primary" disabled={loading} type="submit">Mulai</Button>
       </Form>
-      <Alert hidden={!showAlert} onClose={() => setShowAlert(false)} dismissible={!loading} variant={response.variantAlert} className="mt-4">{response.response}</Alert>
-    </section>
+          </section>
   );
 }
 

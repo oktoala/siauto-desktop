@@ -35,6 +35,20 @@ function createWindow() {
             profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
         }
 
+    } else if (os.platform() == "win32"){
+	console.log("Windows");
+	if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
+		console.log("Edge Ada");
+		browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+
+	} else if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')){
+
+		console.log("Chrome Ada");
+		browserExe = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`
+	}
+
     }
 
     win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
@@ -67,7 +81,7 @@ const scrapeImages = async (mahasiswa) => {
     const browser = await puppeteer.launch({
         executablePath: browserExe,
         userDataDir: profilDir,
-        headless: false,
+        headless: true,
     });
     const page = await browser.newPage();
     try {
