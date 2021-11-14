@@ -127,14 +127,18 @@ const MainSection = () => {
       dataColleger.nim = document.querySelector('#basicFormNIM').value;
       dataColleger.password = document.querySelector('#basicFormPassword').value;
       ipcRenderer.send("Coba", dataColleger);
+
+      ipcRenderer.on("res", (event, arg) => {
+        setResponse({ response: arg.response, variantAlert: arg.variantAlert });
+        setLoading(false);
+      })
+
       // const ngrok = "https://cfb8-36-85-4-217.ngrok.io";
       // const url = "http://localhost:5001/test-web-scrap/us-central1/scraper";
       // const url = `${ngrok}/test-web-scrap/us-central1/scraper`;
       // const url =  "https://siauto.herokuapp.com/siauto";
       // const url = "http://localhost:8080/siauto"
-      
-      setLoading(false);
-      // setResponse({ response: data.response, variantAlert: data.variantAlert });
+
     }
 
   }
