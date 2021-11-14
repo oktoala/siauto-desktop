@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const os = require("os");
+const fs = require("fs");
 const path = require("path");
 const isDev = require("electron-is-dev");
 require('@electron/remote/main').initialize();
@@ -7,6 +8,8 @@ const puppeteer = require('puppeteer-core');
 
 
 let win;
+let browserExe = "google-chrome";
+let profilDir = "";
 function createWindow() {
     win = new BrowserWindow({
         width: 800,
@@ -18,8 +21,20 @@ function createWindow() {
         }
     });
 
+    const username = os.userInfo().username;
+    console.log(`👌 Hallo ${username}`);
     if (os.platform() == 'linux'){
-        console.log("Linux")
+        // Check Google Chrome
+        if (fs.existsSync('/usr/bin/google-chrome-stable')){
+            browserExe = "google-chrome-stable";
+            profilDir = `/home/${username}/.config/google-chrome/Default`;
+        } 
+        // Check Brave Browser
+        else if (fs.existsSync('/usr/bin/brave')){
+            browserExe = "brave";
+            profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
+        }
+
     }
 
     win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
@@ -48,12 +63,11 @@ ipcMain.on('Coba', async (event, arg) => {
 
 
 const scrapeImages = async (mahasiswa) => {
-    console.log("haha");
+    console.log("Membuka Browser...\n");
     const browser = await puppeteer.launch({
-        executablePath: '/usr/bin/brave',
-        userDataDir: '/home/iansyah/.config/BraveSoftware/Brave-Browser/Default',
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: browserExe,
+        userDataDir: profilDir,
+        headless: false,
     });
     const page = await browser.newPage();
     try {
@@ -62,7 +76,7 @@ const scrapeImages = async (mahasiswa) => {
 
         await page.waitForSelector("input[name=usr]", {
             visible: true,
-        }).then(() => console.log("Dapat Input Login"));
+        }).then(() => console.log("Mengisi Form Login..."));
 
 
         await page.type("input[name=usr]", mahasiswa.nim);
@@ -82,7 +96,7 @@ const scrapeImages = async (mahasiswa) => {
             await page.waitForSelector("h2", {
                 visible: true,
                 timeout: 5000,
-            }).then(() => console.log("Dapat KHS"));
+            }).then(() => console.log("Masuku Ke Halaman KHS..."));
         } catch (error) {
             await browser.close();
             return { response: "NIM dan Password tidak cocok. Silahkan coba lagi", variantAlert: "danger" };
@@ -126,7 +140,7 @@ const scrapeImages = async (mahasiswa) => {
 
         await page.waitForSelector("#response a", {
             visible: true,
-        }).then(() => console.log("Dapat Link"));
+        }).then(() => console.log("Sedang Memproses..."));
 
         // Get All the link to array
 
@@ -149,7 +163,7 @@ const scrapeImages = async (mahasiswa) => {
 
             await pageKHS.waitForSelector("#sipform > div > ul > li > a", {
                 visible: true,
-            }).then(() => console.log("Udah di kuesioner"));
+            }).then(() => console.log("Mengisi Kuesioner..."));
 
             // Get All tabs (ex: Kesiapan Mengajar, Materi Pengajaran, ...)
             const tabs = await pageKHS.evaluate(() => {
