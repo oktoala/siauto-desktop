@@ -8,6 +8,8 @@ import { ReactComponent as GithubIcon } from './icons/github.svg';
 import { ReactComponent as UnmulIcon } from './icons/unmul.svg';
 import { ReactComponent as LogoIcon } from './icons/user-graduate.svg';
 import { ReactComponent as QuestionIcon } from './icons/question-circle.svg';
+const { ipcRenderer } = window.require("electron");
+
 
 const dataColleger = {
   nim: "",
@@ -124,20 +126,15 @@ const MainSection = () => {
       setLoading(true);
       dataColleger.nim = document.querySelector('#basicFormNIM').value;
       dataColleger.password = document.querySelector('#basicFormPassword').value;
+      ipcRenderer.send("Coba", 'Makan')
       // const ngrok = "https://cfb8-36-85-4-217.ngrok.io";
       // const url = "http://localhost:5001/test-web-scrap/us-central1/scraper";
       // const url = `${ngrok}/test-web-scrap/us-central1/scraper`;
-      const url =  "https://siauto.herokuapp.com/siauto";
+      // const url =  "https://siauto.herokuapp.com/siauto";
       // const url = "http://localhost:8080/siauto"
-
-      const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(dataColleger),
-        headers: {"Content-Type": "application/json"}
-      });
-      const data = await response.json();
+      
       setLoading(false);
-      setResponse({ response: data.response, variantAlert: data.variantAlert });
+      // setResponse({ response: data.response, variantAlert: data.variantAlert });
     }
 
   }

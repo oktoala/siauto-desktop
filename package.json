@@ -13,6 +13,8 @@
     "electron": "^15.3.1",
     "electron-builder": "^22.13.1",
     "electron-is-dev": "^2.0.0",
+    "puppeteer-core": "^11.0.0",
+    "puppeteer-in-electron": "^3.0.5",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.2",
     "react-dom": "^17.0.2",
@@ -28,14 +30,22 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none yarn start\" \"yarn electron:start\"",
-    "electron:build": "",
+    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
     "electron:start": "wait-on tcp:3000 && electron ."
   },
   "build": {
     "extends": null,
     "appId": "com.siauto.electron",
-    
-  }
+    "file": [
+      "dist/**/*",
+      "build/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
