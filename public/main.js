@@ -6,7 +6,6 @@ const isDev = require("electron-is-dev");
 require('@electron/remote/main').initialize();
 const puppeteer = require('puppeteer-core');
 
-
 let win;
 let browserExe = "google-chrome";
 let profilDir = "";
@@ -23,32 +22,32 @@ function createWindow() {
 
     const username = os.userInfo().username;
     console.log(`👌 Hallo ${username}`);
-    if (os.platform() == 'linux'){
+    if (os.platform() == 'linux') {
         // Check Google Chrome
-        if (fs.existsSync('/usr/bin/google-chrome-stable')){
+        if (fs.existsSync('/usr/bin/google-chrome-stable')) {
             browserExe = "google-chrome-stable";
             profilDir = `/home/${username}/.config/google-chrome/Default`;
             console.log("Memakai Chrome...");
-        } 
+        }
         // Check Brave Browser
-        else if (fs.existsSync('/usr/bin/brave')){
+        else if (fs.existsSync('/usr/bin/brave')) {
             browserExe = "brave";
             profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
             console.log("Memakai Brave...");
         }
 
-    } else if (os.platform() == "win32"){
-	console.log("Windows");
-	if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
-		console.log("Memakai Edge...");
-		browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
-		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
-        
-	} else if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')){
-		console.log("Memakai Chrome...");
-		browserExe = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`
-	}
+    } else if (os.platform() == "win32") {
+        console.log("Windows");
+        if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')) {
+            console.log("Memakai Edge...");
+            browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+            profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+
+        } else if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
+            console.log("Memakai Chrome...");
+            browserExe = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+            profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`
+        }
 
     }
 
@@ -217,16 +216,16 @@ const scrapeImages = async (mahasiswa) => {
 
                 //* Check Radio button with random number from array nilai
                 //* Comment loop below to test submit button button
-                // for await (const name of names) {
+                for await (const name of names) {
 
-                //   const randomNumber = mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
+                    const randomNumber = mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
 
-                //   await pageKHS.evaluate((name: any, randomNumber: string | undefined) => {
-                //     (document.querySelector(`input[value="${randomNumber}"][name="${name}"`) as HTMLInputElement).checked = true;
+                    await pageKHS.evaluate((name, randomNumber) => {
+                        document.querySelector(`input[value="${randomNumber}"][name="${name}"`).checked = true;
 
-                //   }, name, randomNumber);
+                    }, name, randomNumber);
 
-                // }
+                }
             }
 
             if (mahasiswa.cobaDulu) {

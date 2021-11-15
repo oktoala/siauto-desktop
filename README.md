@@ -6,7 +6,3 @@ cd siauto-desktop
 yarn install
 yarn run electron:serve
 ```
-
-
-
-
