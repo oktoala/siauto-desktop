@@ -121,7 +121,7 @@ const MainSection = () => {
       console.log("False");
     } else {
       console.log("True");
-      setResponse({ response: "Tunggu Sebentar", variantAlert: "secondary" });
+      setResponse({ response: "Sedang Memproses...", variantAlert: "secondary" });
       setShowAlert(true);
       setLoading(true);
       dataColleger.nim = document.querySelector('#basicFormNIM').value;

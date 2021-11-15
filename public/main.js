@@ -11,14 +11,19 @@ let browserExe = "google-chrome";
 let profilDir = "";
 function createWindow() {
     win = new BrowserWindow({
-        width: 800,
-        height: 800,
+        width: 900,
+        height: 700,
+        minWidth: 900,
+        minHeight: 700,
+        maximizable: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
         }
     });
+
+    win.setMenu(null);
 
     const username = os.userInfo().username;
     console.log(`👌 Hallo ${username}`);
@@ -227,7 +232,6 @@ const scrapeImages = async (mahasiswa) => {
 
                 }
             }
-
             if (mahasiswa.cobaDulu) {
                 break;
             }
