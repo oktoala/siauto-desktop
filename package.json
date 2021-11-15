@@ -1,12 +1,12 @@
 {
-  "name": "siauto-electron",
+  "name": "siauto-desktop",
   "version": "0.1.0",
   "private": true,
   "author": {
     "email": "okta.yoga.syah@gmail.com",
     "name": "Oktavian"
   },
-  "description": "Siauto untuk isi kuesioner",
+  "description": "SIAuto untuk isi kuesioner",
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "@testing-library/jest-dom": "^5.11.4",

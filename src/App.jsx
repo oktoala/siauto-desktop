@@ -44,14 +44,6 @@ const Header = () => {
             </div>
           </a>
         </div>
-        <div className="menu">
-          <ButtonMenu href="sia.unmul.ac.id/home" label="SIA"  >
-            <UnmulIcon height="25px" />
-          </ButtonMenu>
-          <ButtonMenu href="github.com/oktoala/sia-auto-web" label="Star"  >
-            <GithubIcon height="25px" />
-          </ButtonMenu>
-        </div>
       </div>
     </header>
   );
@@ -169,7 +161,7 @@ const MainSection = () => {
   return (
     <section className="main-section">
       <h3>{`Semester ${tahun_ajar} ${semester}`}</h3>
-<Alert hidden={!showAlert} onClose={() => setShowAlert(false)} dismissible={!loading} variant={response.variantAlert} className="mt-4">{response.response}</Alert>
+      <Alert hidden={!showAlert} onClose={() => setShowAlert(false)} dismissible={!loading} variant={response.variantAlert} className="mt-4">{response.response}</Alert>
 
       <Form className="mb-4" onSubmit={handleSubmit} >
         <FormInput placeholder="Masukkan NIM" hidden="text">NIM</FormInput>
@@ -198,7 +190,7 @@ const MainSection = () => {
         </Form.Group>
         <Button variant="primary" disabled={loading} type="submit">Mulai</Button>
       </Form>
-          </section>
+    </section>
   );
 }
 

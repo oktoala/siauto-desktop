@@ -22,9 +22,11 @@ function createWindow() {
             enableRemoteModule: true,
         }
     });
+    win.setIcon(path.join(__dirname, '../src/icons/unmul-alpha.png'));
 
     win.setMenu(null);
 
+    win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
     const username = os.userInfo().username;
     console.log(`👌 Hallo ${username}`);
     if (os.platform() == 'linux') {
@@ -56,7 +58,6 @@ function createWindow() {
 
     }
 
-    win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
 
 }
 
