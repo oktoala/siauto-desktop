@@ -16,6 +16,7 @@ function createWindow() {
         minWidth: 900,
         minHeight: 700,
         maximizable: false,
+	icon: '../src/icons/unmul-alpha.png',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -108,6 +109,7 @@ const scrapeImages = async (mahasiswa) => {
         });
 
         await page.type("input[name=sc]", securityCode);
+
 
         await page.click("button[type=submit]");
 
@@ -213,7 +215,6 @@ const scrapeImages = async (mahasiswa) => {
 
                 // ! Comment this line if youre ready
                 if (tab === "#tabs8") {
-                    await pageKHS.type("textarea", "✌️");
                     await pageKHS.evaluate(() => {
                         document.querySelector("#submit").click();
                     });
