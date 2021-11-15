@@ -39,9 +39,18 @@
   "build": {
     "extends": null,
     "appId": "com.siauto.electron",
-    
+    "win": {
+	"icon": "public/unmul.ico"
+    },
+    "files": [
+	"./build/**/*",
+	"./dist/**/*",
+	"./node_modules/**/*",
+	"./public/**/*",
+	"./src/**/*"
+    ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "public"
     }
   },
   "eslintConfig": {
