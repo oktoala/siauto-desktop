@@ -28,23 +28,24 @@ function createWindow() {
         if (fs.existsSync('/usr/bin/google-chrome-stable')){
             browserExe = "google-chrome-stable";
             profilDir = `/home/${username}/.config/google-chrome/Default`;
+            console.log("Memakai Chrome...");
         } 
         // Check Brave Browser
         else if (fs.existsSync('/usr/bin/brave')){
             browserExe = "brave";
             profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
+            console.log("Memakai Brave...");
         }
 
     } else if (os.platform() == "win32"){
 	console.log("Windows");
 	if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
-		console.log("Edge Ada");
+		console.log("Memakai Edge...");
 		browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
-
+        
 	} else if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')){
-
-		console.log("Chrome Ada");
+		console.log("Memakai Chrome...");
 		browserExe = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 		profilDir =  `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`
 	}
