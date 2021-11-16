@@ -16,18 +16,19 @@ function createWindow() {
         minWidth: 900,
         minHeight: 700,
         maximizable: false,
-	icon: '../src/icons/unmul-alpha.png',
+	icon: 'public/unmul-alpha.png',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true,
         }
     });
-    win.setIcon(path.join(__dirname, '../src/icons/unmul-alpha.png'));
+    win.setIcon(path.join(__dirname, 'unmul-alpha.png'));
 
     win.setMenu(null);
 
     win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+
     const username = os.userInfo().username;
     console.log(`👌 Hallo ${username}`);
     if (os.platform() == 'linux') {
@@ -46,16 +47,17 @@ function createWindow() {
 
     } else if (os.platform() == "win32") {
         console.log("Windows");
-        if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')) {
-            console.log("Memakai Edge...");
-            browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
-            profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
-
-        } else if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
+       if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
             console.log("Memakai Chrome...");
             browserExe = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
             profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`
         }
+	 else if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')) {
+            console.log("Memakai Edge...");
+            browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+            profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+
+        } 
 
     }
 

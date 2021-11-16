@@ -4,8 +4,6 @@ import Alert from 'react-bootstrap/Alert';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import React, { useState } from 'react';
-import { ReactComponent as GithubIcon } from './icons/github.svg';
-import { ReactComponent as UnmulIcon } from './icons/unmul.svg';
 import { ReactComponent as LogoIcon } from './icons/user-graduate.svg';
 import { ReactComponent as QuestionIcon } from './icons/question-circle.svg';
 const { ipcRenderer } = window.require("electron");
@@ -46,17 +44,6 @@ const Header = () => {
         </div>
       </div>
     </header>
-  );
-}
-
-const ButtonMenu = (props) => {
-  return (
-    <Button variant="light" >
-      <a href={`https://${props.href}`} target="_blank" rel="noopener noreferrer">
-        {props.children}
-        <span>{props.label}</span>
-      </a>
-    </Button>
   );
 }
 
