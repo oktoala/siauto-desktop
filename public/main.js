@@ -217,6 +217,7 @@ const scrapeImages = async (mahasiswa) => {
 
                 // ! Comment this line if youre ready
                 if (tab === "#tabs8") {
+			await pageKHS.type("textarea", "✌️");
                     await pageKHS.evaluate(() => {
                         document.querySelector("#submit").click();
                     });
