@@ -56,7 +56,6 @@ function createWindow() {
             console.log("Memakai Edge...");
             browserExe = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
             profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
-
         } 
 
     }
