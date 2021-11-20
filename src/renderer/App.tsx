@@ -10,6 +10,8 @@ import React, { useState } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
 // import { ReactComponent as QuestionIcon } from './icons/question-circle.svg';
 
+const { ipcRenderer } = window.require('electron');
+
 interface Props {
   // eslint-disable-next-line react/require-default-props
   children?: React.ReactNode;
@@ -135,7 +137,13 @@ const MainSection = () => {
       dataColleger.password = (
         document.querySelector('#basicFormPassword') as HTMLInputElement
       ).value;
-      setLoading(false);
+
+      ipcRenderer.send('Coba', dataColleger);
+
+      ipcRenderer.on('res', (_event, arg) => {
+        setResponse({ response: arg.response, variantAlert: arg.variantAlert });
+        setLoading(false);
+      });
       // setResponse({ response: data.response, variantAlert: data.variantAlert });
     }
   }
@@ -161,6 +169,15 @@ const MainSection = () => {
   return (
     <section className="main-section">
       <h3>{`Semester ${tahunAjar} ${semester}`}</h3>
+      <Alert
+        hidden={!showAlert}
+        onClose={() => setShowAlert(false)}
+        dismissible={!loading}
+        variant={response.variantAlert}
+        className="mt-4"
+      >
+        {response.response}
+      </Alert>
       <Form className="mb-4" onSubmit={handleSubmit}>
         <FormInput placeholder="Masukkan NIM" hidden="text">
           NIM
@@ -220,15 +237,6 @@ const MainSection = () => {
           Mulai
         </Button>
       </Form>
-      <Alert
-        hidden={!showAlert}
-        onClose={() => setShowAlert(false)}
-        dismissible={!loading}
-        variant={response.variantAlert}
-        className="mt-4"
-      >
-        {response.response}
-      </Alert>
     </section>
   );
 };

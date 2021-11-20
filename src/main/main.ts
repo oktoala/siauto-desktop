@@ -95,6 +95,8 @@ const createWindow = async () => {
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -154,7 +156,7 @@ const createWindow = async () => {
       // eslint-disable-next-line prettier/prettier
     } else if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
       // eslint-disable-next-line prettier/prettier
-        browserExe = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+      browserExe = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
     }
   }
@@ -188,7 +190,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
   const browser = await puppeteer.launch({
     executablePath: browserExe,
     userDataDir: profilDir,
-    headless: true,
+    headless: false,
   });
   const page = await browser.newPage();
 
@@ -344,32 +346,32 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         // ! Comment this line if youre ready
         if (tab === '#tabs8') {
           await pageKHS.type('textarea', '✌️');
+          console.log(typeof names);
           await pageKHS.evaluate(() => {
             (document.querySelector('#submit') as HTMLElement).click();
           });
           // eslint-disable-next-line no-continue
           continue;
         }
-
         //* Check Radio button with random number from array nilai
         //* Comment loop below to test submit button button
         // eslint-disable-next-line no-restricted-syntax
-        for await (const name of names) {
-          const randomNumber =
-            mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
+        // for await (const name of names) {
+        //   const randomNumber =
+        //     mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
 
-          await pageKHS.evaluate(
-            (namename: unknown, randomNumbers: string | undefined) => {
-              (
-                document.querySelector(
-                  `input[value="${randomNumbers}"][name="${namename}"`
-                ) as HTMLInputElement
-              ).checked = true;
-            },
-            name,
-            randomNumber
-          );
-        }
+        //   await pageKHS.evaluate(
+        //     (namename: unknown, randomNumbers: string | undefined) => {
+        //       (
+        //         document.querySelector(
+        //           `input[value="${randomNumbers}"][name="${namename}"`
+        //         ) as HTMLInputElement
+        //       ).checked = true;
+        //     },
+        //     name,
+        //     randomNumber
+        //   );
+        // }
       }
 
       if (mahasiswa.cobaDulu) {
@@ -377,7 +379,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       }
     }
 
-    await browser.close();
+    // await browser.close();
 
     return {
       response: 'Berhasil!! Kuesioner Telah diisi 🎉🎉',
@@ -400,7 +402,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 };
 
 ipcMain.on('Coba', async (_event, arg) => {
-  // console.log(arg);
+  console.log(arg);
   const result = await scrapeImages(arg);
 
   mainWindow.webContents.send('res', result);
