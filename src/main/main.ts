@@ -359,9 +359,12 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         if (tab === '#tabs8') {
           await pageKHS.type('textarea', '✌️');
           console.log(typeof names);
-          await pageKHS.evaluate(() => {
+          const buttonSubmit =  await pageKHS.evaluate(() => {
             (document.querySelector('#submit') as HTMLElement).click();
+	    console.log('Submit');
+	    return "Makan";
           });
+	  console.log(buttonSubmit);
           // eslint-disable-next-line no-continue
           continue;
         }
@@ -391,7 +394,9 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       }
     }
 
-    await browser.close();
+    //await page.close();
+    //await pageKHS.close();
+    //await browser.close();
 
     return {
       response: 'Berhasil!! Kuesioner Telah diisi 🎉🎉',
