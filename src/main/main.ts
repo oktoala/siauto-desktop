@@ -202,7 +202,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
   const browser = await puppeteer.launch({
     executablePath: browserExe,
     userDataDir: profilDir,
-    headless: false,
+    headless: true,
   });
   const page = await browser.newPage();
 
@@ -391,7 +391,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       }
     }
 
-    // await browser.close();
+    await browser.close();
 
     return {
       response: 'Berhasil!! Kuesioner Telah diisi 🎉🎉',
