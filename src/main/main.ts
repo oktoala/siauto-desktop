@@ -368,22 +368,22 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         //* Check Radio button with random number from array nilai
         //* Comment loop below to test submit button button
         // eslint-disable-next-line no-restricted-syntax
-        // for await (const name of names) {
-        //   const randomNumber =
-        //     mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
+        for await (const name of names) {
+          const randomNumber =
+            mahasiswa.nilai[Math.floor(Math.random() * mahasiswa.nilai.length)];
 
-        //   await pageKHS.evaluate(
-        //     (namename: unknown, randomNumbers: string | undefined) => {
-        //       (
-        //         document.querySelector(
-        //           `input[value="${randomNumbers}"][name="${namename}"`
-        //         ) as HTMLInputElement
-        //       ).checked = true;
-        //     },
-        //     name,
-        //     randomNumber
-        //   );
-        // }
+          await pageKHS.evaluate(
+            (namename: unknown, randomNumbers: string | undefined) => {
+              (
+                document.querySelector(
+                  `input[value="${randomNumbers}"][name="${namename}"`
+                ) as HTMLInputElement
+              ).checked = true;
+            },
+            name,
+            randomNumber
+          );
+        }
       }
 
       if (mahasiswa.cobaDulu) {
