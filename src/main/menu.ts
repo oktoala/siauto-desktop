@@ -212,7 +212,7 @@ export default class MenuBuilder {
           {
             label: 'Source Code',
             click() {
-              shell.openExternal('https:/github.com/oktala/siauto-desktop');
+              shell.openExternal('https:/github.com/oktoala/siauto-desktop');
             },
           },
         ],

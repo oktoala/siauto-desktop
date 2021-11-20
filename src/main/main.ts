@@ -51,6 +51,16 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+ipcMain.on('Open', async (event, arg) => {
+  const browsers = await puppeteer.launch({
+    executablePath: browserExe,
+    userDataDir: profilDir,
+    headless: arg,
+  });
+  browsers.close();
+  console.log(`Browser Udah dibuka ${typeof event}`);
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
