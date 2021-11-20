@@ -31,8 +31,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "SIAutoDesktop",
+    "appId": "org.oktoala.siauto",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [

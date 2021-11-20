@@ -1,7 +1,7 @@
 {
   "name": "siauto-unmul",
   "productName": "SIAuto Desktop",
-  "version": "4.3.1",
+  "version": "0.2.0",
   "description": "Untuk kalian yang malas isi kuesioner",
   "main": "./dist/main/main.js",
   "author": {
