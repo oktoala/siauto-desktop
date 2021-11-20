@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/no-unused-prop-types */
@@ -8,7 +9,7 @@ import './App.css';
 import { Button, Form, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
-// import { ReactComponent as QuestionIcon } from './icons/question-circle.svg';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -76,8 +77,7 @@ const TipsText = (props: Props) => {
       overlay={<Tooltip>{props.children}</Tooltip>}
     >
       <span>
-        hah
-        {/* <QuestionIcon height="15" /> */}
+        <FaQuestionCircle height="15" />
       </span>
     </OverlayTrigger>
   );
@@ -140,7 +140,7 @@ const MainSection = () => {
 
       ipcRenderer.send('Coba', dataColleger);
 
-      ipcRenderer.on('res', (_event, arg) => {
+      ipcRenderer.on('res', (_event: any, arg: any) => {
         setResponse({ response: arg.response, variantAlert: arg.variantAlert });
         setLoading(false);
       });
