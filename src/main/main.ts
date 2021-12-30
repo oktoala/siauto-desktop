@@ -161,14 +161,29 @@ const createWindow = async () => {
   } else if (os.platform() === 'win32') {
     console.log('Windows');
     // eslint-disable-next-line prettier/prettier
+    // Untuk Chrome 64 bit
     if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
-      console.log('Memakai Chrome...');
+      console.log('Memakai Chrome64-bit...');
       browserExe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
       // eslint-disable-next-line prettier/prettier
-    } else if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
+    }
+    // Untuk Chrome 32 bit
+    else if (fs.existsSync('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe')) {
+	console.log('Memakai Chrome32-bit...');
+      browserExe = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
+    }
+    // Untuk Edge 32 bit
+    else if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
       // eslint-disable-next-line prettier/prettier
       browserExe = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+    }
+    // Untuk Edge 64 bit
+    else if (fs.existsSync('C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe')){
+      // eslint-disable-next-line prettier/prettier
+      browserExe = 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
     }
   }
