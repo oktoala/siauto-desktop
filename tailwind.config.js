@@ -7,6 +7,7 @@ module.exports = {
         'my-primary': '#68B116',
         'my-blue': '#242A45',
         'my-grey': '#d9d9d9',
+        'my-black': '#1f1f1f',
       },
     },
   },

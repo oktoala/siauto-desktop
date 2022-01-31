@@ -27,9 +27,9 @@ interface Props {
   onClick?: React.MouseEventHandler<HTMLInputElement> | undefined;
 }
 
-// interface Checkbox {
-//   children?: React.ReactNode;
-// }
+interface CheckboxProps {
+  value?: string;
+}
 
 interface DataColleger {
   nim: string;
@@ -82,16 +82,14 @@ const FormForInput = (props: Props) => {
   );
 };
 
-const CheckBox = () => {
+const CheckBox = (props: CheckboxProps) => {
   return (
     <div className="pr-4">
       <div className="flex items-center mr-4 mb-2">
         <input
           type="checkbox"
-          id="A3-yes"
-          name="A3-confirmation"
-          value="yes"
           className="opacity-0 absolute h-5 w-5"
+          value={props.value}
         />
         <div className="bg-white border-2 rounded-md border-my-grey w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
           <svg
@@ -112,7 +110,7 @@ const CheckBox = () => {
           </svg>
         </div>
         <label htmlFor="A3-yes" className="select-none">
-          1
+          {props.value}
         </label>
       </div>
     </div>
@@ -206,7 +204,7 @@ const MainSection = () => {
 
   return (
     <section className="main-section">
-      <h3 className="font-bold uppercase text-center text-lg">{`Semester ${tahunAjar} ${semester}`}</h3>
+      <h2 className="font-bold uppercase text-center text-2xl">{`Semester ${tahunAjar} ${semester}`}</h2>
       <form action="" onSubmit={handleSubmit}>
         <FormForInput label="NIM" icon={<IoPersonCircle />} hidden="text" />
         <FormForInput
@@ -214,12 +212,13 @@ const MainSection = () => {
           icon={<RiLockPasswordFill />}
           hidden="password"
         />
+        <h5 className="font-medium text-lg text-my-black">Nilai Kuesioner</h5>
         <div className="flex py-2">
-          <CheckBox />
-          <CheckBox />
-          <CheckBox />
-          <CheckBox />
-          <CheckBox />
+          <CheckBox value="1" />
+          <CheckBox value="2" />
+          <CheckBox value="3" />
+          <CheckBox value="4" />
+          <CheckBox value="5" />
         </div>
         <input
           type="checkbox"
