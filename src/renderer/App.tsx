@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-no-bind */
@@ -25,6 +26,10 @@ interface Props {
   icon?: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLInputElement> | undefined;
 }
+
+// interface Checkbox {
+//   children?: React.ReactNode;
+// }
 
 interface DataColleger {
   nim: string;
@@ -54,8 +59,14 @@ const FormForInput = (props: Props) => {
     >
       <div className="i">{props.icon}</div>
       <div className="div">
-        <h5>{props.label}</h5>
+        <h5
+          className="font-sans absolute left-3 top-1/2 transform -translate-y-2/4 text-my-grey text-lg "
+          style={{ transition: '0.3s' }}
+        >
+          {props.label}
+        </h5>
         <input
+          required
           onFocus={() => setFocus('focus')}
           onBlur={() => {
             if (value === '') setFocus('');
@@ -66,6 +77,43 @@ const FormForInput = (props: Props) => {
           className="absolute w-full h-full py-2 px-3 outline-none inset-0 text-gray-700 "
           style={{ background: 'none' }}
         />
+      </div>
+    </div>
+  );
+};
+
+const CheckBox = () => {
+  return (
+    <div className="pr-4">
+      <div className="flex items-center mr-4 mb-2">
+        <input
+          type="checkbox"
+          id="A3-yes"
+          name="A3-confirmation"
+          value="yes"
+          className="opacity-0 absolute h-5 w-5"
+        />
+        <div className="bg-white border-2 rounded-md border-my-grey w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2 focus-within:border-blue-500">
+          <svg
+            className="fill-current hidden w-3 h-3 pointer-events-none"
+            version="1.1"
+            viewBox="0 0 17 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g fill="none" fillRule="evenodd">
+              <g
+                className="fill-current text-my-primary"
+                transform="translate(-8.2 -11)"
+                fillRule="nonzero"
+              >
+                <path d="m25.576 11.414c0.56558 0.55188 0.56558 1.4439 0 1.9961l-9.404 9.176c-0.28213 0.27529-0.65247 0.41385-1.0228 0.41385-0.37034 0-0.74068-0.13855-1.0228-0.41385l-4.7019-4.588c-0.56584-0.55188-0.56584-1.4442 0-1.9961 0.56558-0.55214 1.4798-0.55214 2.0456 0l3.679 3.5899 8.3812-8.1779c0.56558-0.55214 1.4798-0.55214 2.0456 0z" />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <label htmlFor="A3-yes" className="select-none">
+          1
+        </label>
       </div>
     </div>
   );
@@ -158,7 +206,7 @@ const MainSection = () => {
 
   return (
     <section className="main-section">
-      <h3>{`Semester ${tahunAjar} ${semester}`}</h3>
+      <h3 className="font-bold uppercase text-center text-lg">{`Semester ${tahunAjar} ${semester}`}</h3>
       <form action="" onSubmit={handleSubmit}>
         <FormForInput label="NIM" icon={<IoPersonCircle />} hidden="text" />
         <FormForInput
@@ -166,6 +214,13 @@ const MainSection = () => {
           icon={<RiLockPasswordFill />}
           hidden="password"
         />
+        <div className="flex py-2">
+          <CheckBox />
+          <CheckBox />
+          <CheckBox />
+          <CheckBox />
+          <CheckBox />
+        </div>
         <input
           type="checkbox"
           name="radio"

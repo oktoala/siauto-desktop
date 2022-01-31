@@ -1,10 +1,8 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
   position: relative;
-  color: white;
   height: 100vh;
   min-width: 600px;
   font-family: sans-serif;
@@ -54,26 +52,20 @@ a:hover {
 }
 
 .i {
-  color: #d9d9d9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @apply text-my-grey flex justify-center items-center
+
 }
 
 .i i {
   transition: 0.3s;
 }
 
-/* .input-div {
-  display: grid;
-} */
-
 .input-div > div {
   position: relative;
   height: 45px;
 }
 
-.input-div > div > h5 {
+/* .input-div > div > h5 {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -81,7 +73,7 @@ a:hover {
   color: #999;
   font-size: 18px;
   transition: 0.3s;
-}
+} */
 
 .input-div:before,
 .input-div:after {
@@ -90,7 +82,7 @@ a:hover {
   bottom: -2px;
   width: 0%;
   height: 2px;
-  background-color: #38d39f;
+  background-color: #68B116;
   transition: 0.4s;
 }
 
@@ -113,5 +105,12 @@ a:hover {
 }
 
 .input-div.focus > .i > svg {
-  fill: #38d39f;
+  @apply fill-current text-my-primary
+}
+
+input:checked + div {
+  @apply border-my-primary
+}
+input:checked + div svg {
+  @apply block;
 }
