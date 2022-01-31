@@ -1,20 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable react/destructuring-assignment */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-
-import { Button, Form, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { FormCheckType } from 'react-bootstrap/esm/FormCheck';
-import { FaQuestionCircle } from 'react-icons/fa';
+import { IoPersonCircle } from 'react-icons/io5';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 const { ipcRenderer } = window.require('electron');
 
 interface Props {
-  // eslint-disable-next-line react/require-default-props
   children?: React.ReactNode;
   type?: FormCheckType | undefined;
   label?: string;
@@ -22,6 +22,7 @@ interface Props {
   hidden?: string;
   href?: string;
   placeholder?: string;
+  icon?: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLInputElement> | undefined;
 }
 
@@ -41,50 +42,38 @@ const dataColleger: DataColleger = {
   cobaDulu: false,
 };
 /* Form Input */
-const FormInput = (props: Props) => {
-  return (
-    <Form.Group className="mb-3" controlId={`basicForm${props.children}`}>
-      <Form.Label>{props.children}</Form.Label>
-      <Form.Control
-        name="password"
-        required
-        type={props.hidden}
-        placeholder={props.placeholder}
-      />
-    </Form.Group>
-  );
-};
 
-/* Kuesioner Checkboxes and RadioButton */
-const FormCheckButton = (props: Props) => {
-  return (
-    <Form.Check
-      onClick={props.onClick}
-      required={props.required}
-      inline
-      label={props.label}
-      name="group1"
-      type={props.type}
-      id={`inline-${props.type}-${props.label}`}
-    />
-  );
-};
+const FormForInput = (props: Props) => {
+  const [focus, setFocus] = useState('');
+  const [value, setValue] = useState('');
 
-const TipsText = (props: Props) => {
   return (
-    <OverlayTrigger
-      placement="right"
-      overlay={<Tooltip>{props.children}</Tooltip>}
+    <div
+      className={`grid input-div border-b-2 relative my-5 py-1 focus:outline-none ${focus}`}
+      style={{ gridTemplateColumns: '7% 93%' }}
     >
-      <span>
-        <FaQuestionCircle height="15" />
-      </span>
-    </OverlayTrigger>
+      <div className="i">{props.icon}</div>
+      <div className="div">
+        <h5>{props.label}</h5>
+        <input
+          onFocus={() => setFocus('focus')}
+          onBlur={() => {
+            if (value === '') setFocus('');
+          }}
+          type={props.hidden}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="absolute w-full h-full py-2 px-3 outline-none inset-0 text-gray-700 "
+          style={{ background: 'none' }}
+        />
+      </div>
+    </div>
   );
 };
 
 const MainSection = () => {
   const [checkRequired, setCheckRequired] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [semester, setSemester] = useState('');
   const [response, setResponse] = useState({
     response: 'ga',
@@ -95,6 +84,8 @@ const MainSection = () => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   // eslint-disable-next-line @typescript-eslint/naming-convention
+  // eslint-disable-next-line no-console
+  console.log(`${checkRequired}, ${response}, ${showAlert}, ${loading} `);
 
   function currYears() {
     const today = new Date();
@@ -147,7 +138,6 @@ const MainSection = () => {
       // setResponse({ response: data.response, variantAlert: data.variantAlert });
     }
   }
-
   function onClickCheckBtn(label: string) {
     /* Detect if the label found in the array */
     const index = dataColleger.nilai.indexOf(label);
@@ -169,74 +159,24 @@ const MainSection = () => {
   return (
     <section className="main-section">
       <h3>{`Semester ${tahunAjar} ${semester}`}</h3>
-      <Alert
-        hidden={!showAlert}
-        onClose={() => setShowAlert(false)}
-        dismissible={!loading}
-        variant={response.variantAlert}
-        className="mt-4"
-      >
-        {response.response}
-      </Alert>
-      <Form className="mb-4" onSubmit={handleSubmit}>
-        <FormInput placeholder="Masukkan NIM" hidden="text">
-          NIM
-        </FormInput>
-        <FormInput placeholder="Masukkan Password SIA/Mols" hidden="password">
-          Password
-        </FormInput>
-        <Form.Label>
-          Nilai Kuesioner{' '}
-          <TipsText>
-            Nilai-nilai yang dipilih akan dirandom saat pengisian kuesioner
-          </TipsText>{' '}
-        </Form.Label>
-        <Form.Group className="mb-3" controlId="basicFormCheckbox">
-          {['1', '2', '3', '4', '5'].map((label) => (
-            <FormCheckButton
-              onClick={() => onClickCheckBtn(label)}
-              required={checkRequired}
-              type="checkbox"
-              label={label}
-            />
-          ))}
-        </Form.Group>
-        <Form.Label>Semester</Form.Label>
-        <Form.Group className="mb-3" controlId="basicFormRadio">
-          {[
-            {
-              nama: 'Ganjil',
-              id: '1',
-            },
-            {
-              nama: 'Genap',
-              id: '2',
-            },
-          ].map((label) => (
-            <FormCheckButton
-              onClick={() => {
-                dataColleger.semId = currYears() + label.id;
-                setSemester(label.nama);
-              }}
-              required
-              type="radio"
-              label={label.nama}
-            />
-          ))}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="basicFormTrust">
-          <FormCheckButton
-            onClick={() => {
-              dataColleger.cobaDulu = !dataColleger.cobaDulu;
-            }}
-            type="checkbox"
-            label="Isi satu dulu"
-          />
-        </Form.Group>
-        <Button variant="primary" disabled={loading} type="submit">
-          Mulai
-        </Button>
-      </Form>
+      <form action="" onSubmit={handleSubmit}>
+        <FormForInput label="NIM" icon={<IoPersonCircle />} hidden="text" />
+        <FormForInput
+          label="Password SIA/Mols"
+          icon={<RiLockPasswordFill />}
+          hidden="password"
+        />
+        <input
+          type="checkbox"
+          name="radio"
+          onClick={() => setSemester('makan')}
+        />
+        <input
+          type="checkbox"
+          name="radio"
+          onClick={() => onClickCheckBtn('1')}
+        />
+      </form>
     </section>
   );
 };

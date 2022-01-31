@@ -20,7 +20,7 @@ import fs from 'fs';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 // eslint-disable-next-line import/no-named-as-default
-import MenuBuilder from './menu';
+// import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
 const puppeteer = require('puppeteer-core');
@@ -130,8 +130,8 @@ const createWindow = async () => {
   //   mainWindow = null;
   // });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {
@@ -162,28 +162,47 @@ const createWindow = async () => {
     console.log('Windows');
     // eslint-disable-next-line prettier/prettier
     // Untuk Chrome 64 bit
-    if (fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')) {
+    if (
+      fs.existsSync(
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+      )
+    ) {
       console.log('Memakai Chrome64-bit...');
       browserExe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
       // eslint-disable-next-line prettier/prettier
     }
     // Untuk Chrome 32 bit
-    else if (fs.existsSync('C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe')) {
-	console.log('Memakai Chrome32-bit...');
-      browserExe = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+    else if (
+      fs.existsSync(
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+      )
+    ) {
+      console.log('Memakai Chrome32-bit...');
+      browserExe =
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
     }
     // Untuk Edge 32 bit
-    else if (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')){
+    else if (
+      fs.existsSync(
+        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+      )
+    ) {
       // eslint-disable-next-line prettier/prettier
-      browserExe = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+      browserExe =
+        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
     }
     // Untuk Edge 64 bit
-    else if (fs.existsSync('C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe')){
+    else if (
+      fs.existsSync(
+        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
+      )
+    ) {
       // eslint-disable-next-line prettier/prettier
-      browserExe = 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
+      browserExe =
+        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
     }
   }
@@ -374,12 +393,12 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         if (tab === '#tabs8') {
           await pageKHS.type('textarea', '✌️');
           console.log(typeof names);
-          const buttonSubmit =  await pageKHS.evaluate(() => {
+          const buttonSubmit = await pageKHS.evaluate(() => {
             (document.querySelector('#submit') as HTMLElement).click();
-	    console.log('Submit');
-	    return "Makan";
+            console.log('Submit');
+            return 'Makan';
           });
-	  console.log(buttonSubmit);
+          console.log(buttonSubmit);
           // eslint-disable-next-line no-continue
           continue;
         }
@@ -409,9 +428,9 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       }
     }
 
-    //await page.close();
-    //await pageKHS.close();
-    //await browser.close();
+    // await page.close();
+    // await pageKHS.close();
+    // await browser.close();
 
     return {
       response: 'Berhasil!! Kuesioner Telah diisi 🎉🎉',
