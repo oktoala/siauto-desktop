@@ -5,8 +5,8 @@ interface CheckboxProps {
 const CheckBoxInput = (props: CheckboxProps) => {
   const { value } = props;
   return (
-    <div className="pr-4">
-      <div className="flex items-center mr-4 mb-2">
+    <div className="pr-2">
+      <div className="flex items-center mb-2">
         <input
           type="checkbox"
           className="opacity-0 absolute h-5 w-5 peer"

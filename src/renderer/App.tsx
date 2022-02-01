@@ -8,6 +8,7 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import FormInput from './components/FormInput';
 import CheckBoxInput from './components/CheckboxInput';
 import RadioButtonInput from './components/RadioButtonInput';
+import Sidebar from './components/Sidebar';
 import currYears from './lib/date';
 
 const { ipcRenderer } = window.require('electron');
@@ -31,6 +32,7 @@ const dataColleger: DataColleger = {
 
 const MainSection = () => {
   const [checked, setChecked] = useState('');
+  const [hasSidebar, setHasSidebar] = useState(false);
   const [checkRequired, setCheckRequired] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [semester, setSemester] = useState('');
@@ -97,61 +99,80 @@ const MainSection = () => {
   };
 
   return (
-    <section className="main-section relative h-screen font-sans overflow-hidden flex justify-center items-center">
-      <div>
-        <h2 className="font-bold uppercase text-center text-2xl text-my-blue">{`Semester ${tahunAjar} ${semester}`}</h2>
-        <form action="" onSubmit={handleSubmit}>
-          <FormInput label="NIM" icon={<IoPersonCircleOutline />} type="text" />
-          <FormInput
-            label="Password SIA/Mols"
-            icon={<RiLockPasswordLine />}
-            type="password"
+    <main className="flex">
+      <Sidebar active={hasSidebar}>
+        <h5 className="font-medium text-lg text-my-blue">Nilai Kuesioner</h5>
+        <div className="flex py-2">
+          <CheckBoxInput value="1" />
+          <CheckBoxInput value="2" />
+          <CheckBoxInput value="3" />
+          <CheckBoxInput value="4" />
+          <CheckBoxInput value="5" />
+        </div>
+        <h5 className="font-medium text-lg text-my-blue">Semester</h5>
+        <div className="flex py-2">
+          <RadioButtonInput
+            value="Ganjil"
+            checked={checked}
+            onChange={radioChange}
           />
-          <h5 className="font-medium text-lg text-my-blue">Nilai Kuesioner</h5>
-          <div className="flex py-2">
-            <CheckBoxInput value="1" />
-            <CheckBoxInput value="2" />
-            <CheckBoxInput value="3" />
-            <CheckBoxInput value="4" />
-            <CheckBoxInput value="5" />
-          </div>
-          <h5 className="font-medium text-lg text-my-blue">Semester</h5>
-          <div className="flex py-2">
-            <RadioButtonInput
-              value="Ganjil"
-              checked={checked}
-              onChange={radioChange}
-            />
-            <RadioButtonInput
-              value="Genap"
-              checked={checked}
-              onChange={radioChange}
-            />
-          </div>
-          <div className="flex py-2">
-            <CheckBoxInput value="Isi Satu Dulu" />
-          </div>
-          <div className="flex justify-center py-2">
-            <button
-              type="submit"
-              className=" w-32 bg-my-blue text-white font-semibold rounded-xl h-9 text-center"
-            >
-              Let&apos;s Go!
-            </button>
-          </div>
-          <input
-            type="checkbox"
-            name="radio"
-            onClick={() => setSemester('makan')}
+          <RadioButtonInput
+            value="Genap"
+            checked={checked}
+            onChange={radioChange}
           />
-          <input
-            type="checkbox"
-            name="radio"
-            onClick={() => onClickCheckBtn('1')}
-          />
-        </form>
-      </div>
-    </section>
+        </div>
+      </Sidebar>
+      <section className="w-full h-full p-4 m-8 overflow-y-auto">
+        <div className="flex items-center justify-center">
+          <div>
+            <h2 className="font-bold uppercase text-center text-2xl text-my-blue">{`Semester ${tahunAjar} ${semester}`}</h2>
+            <form action="" onSubmit={handleSubmit}>
+              <FormInput
+                label="NIM"
+                icon={<IoPersonCircleOutline />}
+                type="text"
+              />
+              <FormInput
+                label="Password SIA/Mols"
+                icon={<RiLockPasswordLine />}
+                type="password"
+              />
+              <div className="flex py-2">
+                <CheckBoxInput value="Isi Satu Dulu" />
+              </div>
+              <div className="flex justify-center py-2">
+                <button
+                  type="submit"
+                  className=" w-32 bg-my-blue text-white font-semibold rounded-xl h-9 text-center"
+                >
+                  Let&apos;s Go!
+                </button>
+              </div>
+              <div className="flex justify-center py-2">
+                <button
+                  type="button"
+                  onClick={() => setHasSidebar(!hasSidebar)}
+                  className=" w-32 bg-my-blue text-white font-semibold rounded-xl h-9 text-center"
+                >
+                  Toogle
+                </button>
+              </div>
+              <input
+                type="checkbox"
+                name="radio"
+                onClick={() => setSemester('makan')}
+              />
+              <input
+                type="checkbox"
+                name="radio"
+                onClick={() => onClickCheckBtn('1')}
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 
