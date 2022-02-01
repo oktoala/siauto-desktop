@@ -1,0 +1,44 @@
+import React, { useState } from 'react';
+
+interface FormInputProps {
+  icon: React.ReactNode;
+  label: string;
+  type: string;
+}
+
+const FormInput = (props: FormInputProps) => {
+  const [focus, setFocus] = useState('');
+  const [value, setValue] = useState('');
+  const { icon, label, type } = props;
+
+  return (
+    <div
+      className={`grid input-div border-b-2 relative my-5 py-1 focus:outline-none ${focus}`}
+      style={{ gridTemplateColumns: '7% 93%' }}
+    >
+      <div className="i">{icon}</div>
+      <div className="div">
+        <h5
+          className="font-sans absolute left-3 top-1/2 transform -translate-y-2/4 text-my-grey text-lg "
+          style={{ transition: '0.3s' }}
+        >
+          {label}
+        </h5>
+        <input
+          required
+          onFocus={() => setFocus('focus')}
+          onBlur={() => {
+            if (value === '') setFocus('');
+          }}
+          type={type}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="absolute w-full h-full py-2 px-3 outline-none inset-0 text-gray-700 "
+          style={{ background: 'none' }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default FormInput;

@@ -1,21 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-  position: relative;
-  height: 100vh;
-  min-width: 600px;
-  font-family: sans-serif;
-  overflow-y: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-button:hover {
-  transform: scale(1.05);
-  opacity: 1;
-}
 
 li {
   list-style: none;
@@ -34,7 +19,7 @@ a:hover {
 }
 
 .main-section {
-  min-width: 350px;
+  /* min-width: 350px; */
 }
 
 .i {
@@ -88,7 +73,10 @@ a:hover {
 .input-div.focus > div > h5 {
   top: -5px;
   font-size: 15px;
-  color: #1f1f1f;
+}
+
+.input-div.focus > div > h5 {
+  @apply text-my-blue
 }
 
 .input-div.focus > .i > svg {
