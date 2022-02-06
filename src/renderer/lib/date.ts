@@ -1,4 +1,4 @@
-export default function currYears() {
+const getDate = () => {
   const today = new Date();
   const monthGanjil = ['8', '9', '10', '11', '12'];
   const january = '1';
@@ -10,14 +10,23 @@ export default function currYears() {
   // Get month
   const month = (today.getMonth() + 1).toString();
   let currYear = year;
+  let whichSemester = '';
 
   if (month === january) {
     currYear = year - 1;
+    whichSemester = 'Ganjil';
   } else if (monthGanjil.includes(month)) {
     currYear = year;
+    whichSemester = 'Ganjil';
   } else if (monthGenap.includes(month)) {
     currYear = year - 1;
+    whichSemester = 'Genap';
   }
 
-  return currYear;
-}
+  return {
+    year: currYear,
+    semester: whichSemester,
+  };
+};
+
+export default getDate();

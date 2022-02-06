@@ -1,17 +1,20 @@
+import { FunctionComponent } from 'react';
+
 interface CheckboxProps {
   value: string;
+  checked?: boolean;
 }
 
-const CheckBoxInput = (props: CheckboxProps) => {
-  const { value } = props;
+const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
+  const { value, checked } = props;
   return (
-    <div className="pr-2">
+    <div className="pr-2 ">
       <div className="flex items-center mb-2">
         <input
           type="checkbox"
           className="opacity-0 absolute h-5 w-5 peer"
           value={value}
-          defaultChecked={value === 'Isi Satu Dulu'}
+          defaultChecked={checked}
           id={`checkbox-${value}`}
         />
         <div className="bg-white border-2 rounded-md border-my-grey w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2">
@@ -43,4 +46,7 @@ const CheckBoxInput = (props: CheckboxProps) => {
   );
 };
 
+CheckBoxInput.defaultProps = {
+  checked: false,
+};
 export default CheckBoxInput;
