@@ -12,8 +12,8 @@ const Sidebar = (props: SidebarProps) => {
       } h-screen py-8 border-r z-10 transtition ease-in duration-300`}
     >
       <div>
-        <h2 className="text-center text-3xl font-semibold  text-my-blue">
-          Settings
+        <h2 className="uppercase text-center text-2xl font-semibold  text-my-blue">
+          Preferensi
         </h2>
         <div className="flex flex-col justify-between mt-6">
           <aside>{children}</aside>

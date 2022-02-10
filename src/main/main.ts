@@ -100,7 +100,7 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
-    resizable: false,
+    resizable: process.env.NODE_ENV !== 'production',
     show: false,
     width: 728,
     height: 700,
