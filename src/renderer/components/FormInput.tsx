@@ -4,12 +4,13 @@ interface FormInputProps {
   icon: React.ReactNode;
   label: string;
   type: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
 const FormInput = (props: FormInputProps) => {
   const [focus, setFocus] = useState('');
-  const [value, setValue] = useState('');
-  const { icon, label, type } = props;
+  const { icon, label, type, value, onChange } = props;
 
   return (
     <div
@@ -54,7 +55,7 @@ const FormInput = (props: FormInputProps) => {
           }}
           type={type}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={onChange}
           className="absolute w-full h-full py-2 px-3 outline-none inset-0 text-gray-700 "
           style={{ background: 'none' }}
         />

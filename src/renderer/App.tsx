@@ -10,8 +10,8 @@ import {
 } from 'react-icons/ri';
 import FormInput from './components/FormInput';
 import CheckBoxInput from './components/CheckboxInput';
-import RadioButtonInput from './components/RadioButtonInput';
-import Sidebar from './components/Sidebar';
+import Alert from './components/Alert';
+import Preferences from './components/Preferences';
 import getDate from './lib/date';
 
 const { ipcRenderer } = window.require('electron');
@@ -34,17 +34,11 @@ const { ipcRenderer } = window.require('electron');
 /* Form Input */
 
 const MainSection = () => {
+  const [nim, setNim] = useState('');
+  const [passwd, setPasswd] = useState('');
   const [radioChecked, setRadioChecked] = useState(getDate.semester);
   const [semester, setSemester] = useState(getDate.semester);
   const [hasSidebar, setHasSidebar] = useState(false);
-  // const [checkRequired, setCheckRequired] = useState(true);
-  // const [response, setResponse] = useState({
-  //   response: 'ga',
-  //   variantAlert: 'secondary',
-  // });
-  // const [showAlert, setShowAlert] = useState(false);
-  // const [loading, setLoading] = useState(false);
-
   const tahunAjar = `${getDate.year}/${getDate.year + 1}`;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -53,13 +47,7 @@ const MainSection = () => {
     event.stopPropagation();
 
     if (form.checkValidity() !== false) {
-      // setResponse({ response: 'Tunggu Sebentar', variantAlert: 'secondary' });
-      // setShowAlert(true);
-      // setLoading(true);
-      console.log(event);
-
       // ipcRenderer.send('Coba', dataColleger);
-
       // ipcRenderer.on('res', (_event: IpcRendererEvent, arg: any) => {
       //   setResponse({ response: arg.response, variantAlert: arg.variantAlert });
       //   setLoading(false);
@@ -67,23 +55,6 @@ const MainSection = () => {
       // setResponse({ response: data.response, variantAlert: data.variantAlert });
     }
   };
-  // function onClickCheckBtn(label: string) {
-  //   /* Detect if the label found in the array */
-  //   const index = dataColleger.nilai.indexOf(label);
-  //   if (index !== -1) {
-  //     dataColleger.nilai.splice(index, 1);
-  //   } else {
-  //     dataColleger.nilai.push(label);
-  //   }
-
-  //   dataColleger.nilai.sort();
-
-  //   if (dataColleger.nilai.length !== 0) {
-  //     setCheckRequired(false);
-  //     return;
-  //   }
-  //   setCheckRequired(true);
-  // }
 
   const radioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioChecked(e.target.value);
@@ -92,43 +63,30 @@ const MainSection = () => {
 
   return (
     <main className="flex overflow-hidden">
-      <Sidebar active={hasSidebar}>
-        <h5 className="font-medium text-lg text-my-blue">Nilai Kuesioner</h5>
-        <div className="flex py-2">
-          <CheckBoxInput value="1" />
-          <CheckBoxInput value="2" />
-          <CheckBoxInput value="3" checked />
-          <CheckBoxInput value="4" checked />
-          <CheckBoxInput value="5" checked />
-        </div>
-        <h5 className="font-medium text-lg text-my-blue">Semester</h5>
-        <div className="flex py-2">
-          <RadioButtonInput
-            value="Ganjil"
-            checked={radioChecked}
-            onChange={radioChange}
-          />
-          <RadioButtonInput
-            value="Genap"
-            checked={radioChecked}
-            onChange={radioChange}
-          />
-        </div>
-      </Sidebar>
+      <Preferences
+        hasSidebar={hasSidebar}
+        radioChange={radioChange}
+        radioChecked={radioChecked}
+      />
       <section className="w-full h-screen ">
         <div className="flex items-center h-screen justify-center">
           <div>
+            <Alert />
             <h2 className="font-bold uppercase text-center text-2xl text-my-blue">{`Semester ${tahunAjar} ${semester}`}</h2>
             <form action="" onSubmit={handleSubmit}>
               <FormInput
                 label="NIM"
                 icon={<IoPersonCircleOutline />}
                 type="text"
+                value={nim}
+                onChange={(e) => setNim(e.target.value)}
               />
               <FormInput
                 label="Password SIA/Mols"
                 icon={<RiLockPasswordLine />}
                 type="password"
+                value={passwd}
+                onChange={(e) => setPasswd(e.target.value)}
               />
               <div className="flex py-2">
                 <CheckBoxInput value="Isi Satu Dulu" checked />
@@ -136,7 +94,7 @@ const MainSection = () => {
               <div className="flex justify-center py-2">
                 <button
                   type="submit"
-                  className=" w-full bg-my-blue text-white font-semibold rounded-full h-9 text-center"
+                  className=" w-full bg-my-blue text-white font-semibold rounded-full h-9 text-center hover:brightness-125"
                 >
                   Let&apos;s Go!
                 </button>

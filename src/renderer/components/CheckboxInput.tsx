@@ -7,6 +7,23 @@ interface CheckboxProps {
 
 const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
   const { value, checked } = props;
+  // function onClickCheckBtn(label: string) {
+  //   /* Detect if the label found in the array */
+  //   const index = dataColleger.nilai.indexOf(label);
+  //   if (index !== -1) {
+  //     dataColleger.nilai.splice(index, 1);
+  //   } else {
+  //     dataColleger.nilai.push(label);
+  //   }
+
+  //   dataColleger.nilai.sort();
+
+  //   if (dataColleger.nilai.length !== 0) {
+  //     setCheckRequired(false);
+  //     return;
+  //   }
+  //   setCheckRequired(true);
+  // }
   return (
     <div className="pr-2 ">
       <div className="flex items-center mb-2">
