@@ -39,6 +39,7 @@ const MainSection = () => {
   const [radioChecked, setRadioChecked] = useState(getDate.semester);
   const [semester, setSemester] = useState(getDate.semester);
   const [hasSidebar, setHasSidebar] = useState(false);
+  const [display, setDisplay] = useState('');
   const tahunAjar = `${getDate.year}/${getDate.year + 1}`;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -71,7 +72,13 @@ const MainSection = () => {
       <section className="w-full h-screen ">
         <div className="flex items-center h-screen justify-center">
           <div>
-            <Alert />
+            <Alert
+              status="success"
+              header="Berhasil!"
+              text="Kuesioner berhasil diisi"
+              display={display}
+              onClick={() => setDisplay('hidden')}
+            />
             <h2 className="font-bold uppercase text-center text-2xl text-my-blue">{`Semester ${tahunAjar} ${semester}`}</h2>
             <form action="" onSubmit={handleSubmit}>
               <FormInput

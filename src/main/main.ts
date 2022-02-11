@@ -45,12 +45,6 @@ let mainWindow: BrowserWindow;
 let browserExe = 'google-chrome';
 let profilDir = '';
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
-
 ipcMain.on('Open', async (event, arg) => {
   const browsers = await puppeteer.launch({
     executablePath: browserExe,
@@ -333,7 +327,6 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       .then(() => console.log('Dapat Link'));
 
     // Get All the link to array
-
     const data = await page.evaluate(() => {
       const hrefs = document.querySelectorAll('#response a');
 
@@ -395,7 +388,9 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
           await pageKHS.type('textarea', '✌️');
           console.log(typeof names);
           const buttonSubmit = await pageKHS.evaluate(() => {
-            (document.querySelector('#submit') as HTMLElement).click();
+            if (process.env.NODE_ENV === 'production') {
+              (document.querySelector('#submit') as HTMLElement).click();
+            }
             console.log('Submit');
             return 'Makan';
           });
