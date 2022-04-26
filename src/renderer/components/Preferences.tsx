@@ -10,15 +10,20 @@ interface PreferencesProps {
 
 const Preferences = (props: PreferencesProps) => {
   const { hasSidebar, radioChecked, radioChange } = props;
+
+  const handleInput = (e: any) => {
+    console.log(e.target.value);
+  };
+
   return (
     <Sidebar active={hasSidebar}>
       <h5 className="font-medium text-lg text-my-blue">Nilai Kuesioner</h5>
       <div className="flex py-2">
-        <CheckBoxInput value="1" />
-        <CheckBoxInput value="2" />
-        <CheckBoxInput value="3" checked />
-        <CheckBoxInput value="4" checked />
-        <CheckBoxInput value="5" checked />
+        <CheckBoxInput value="1" onClick={handleInput} />
+        <CheckBoxInput value="2" onClick={handleInput} />
+        <CheckBoxInput value="3" onClick={handleInput} checked />
+        <CheckBoxInput value="4" onClick={handleInput} checked />
+        <CheckBoxInput value="5" onClick={handleInput} checked />
       </div>
       <h5 className="font-medium text-lg text-my-blue">Semester</h5>
       <div className="flex py-2">

@@ -41,6 +41,7 @@ const MainSection = () => {
   const [hasSidebar, setHasSidebar] = useState(false);
   const tahunAjar = `${getDate.year}/${getDate.year + 1}`;
   const [isRun, setIsRun] = useState(false);
+  // const listNilai = [3, 4, 5];
 
   const [alert, setAlert] = useState({
     status: 'success',

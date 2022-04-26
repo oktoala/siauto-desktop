@@ -1,12 +1,13 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, MouseEventHandler } from 'react';
 
 interface CheckboxProps {
   value: string;
   checked?: boolean;
+  onClick?: MouseEventHandler<HTMLInputElement> | undefined;
 }
 
 const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
-  const { value, checked } = props;
+  const { value, checked, onClick } = props;
   // function onClickCheckBtn(label: string) {
   //   /* Detect if the label found in the array */
   //   const index = dataColleger.nilai.indexOf(label);
@@ -33,6 +34,7 @@ const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
           value={value}
           defaultChecked={checked}
           id={`checkbox-${value}`}
+          onClick={onClick}
           required
         />
         <div className="bg-white border-2 rounded-md border-my-grey w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2">
@@ -66,5 +68,6 @@ const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
 
 CheckBoxInput.defaultProps = {
   checked: false,
+  onClick: () => {},
 };
 export default CheckBoxInput;
