@@ -41,7 +41,8 @@ const MainSection = () => {
   const [hasSidebar, setHasSidebar] = useState(false);
   const tahunAjar = `${getDate.year}/${getDate.year + 1}`;
   const [isRun, setIsRun] = useState(false);
-  // const listNilai = [3, 4, 5];
+  const [nilai, setNilai] = useState(['3', '4', '5']);
+  const [nilaiLen, setNilaiLen] = useState(nilai.length);
 
   const [alert, setAlert] = useState({
     status: 'success',
@@ -76,10 +77,27 @@ const MainSection = () => {
     setRadioChecked(e.target.value);
     setSemester(e.target.value);
   };
+  const handleInput = (e: any) => {
+    const number = e.target.value;
+    const index = nilai.indexOf(number);
+
+    if (index !== -1) {
+      nilai.splice(index, 1);
+    } else {
+      nilai.push(number);
+    }
+    nilai.sort();
+
+    console.log(nilai.length);
+
+    setNilai(nilai);
+    setNilaiLen(nilai.length);
+  };
 
   return (
     <main className="flex overflow-hidden">
       <Preferences
+        onClick={handleInput}
         hasSidebar={hasSidebar}
         radioChange={radioChange}
         radioChecked={radioChecked}
@@ -135,7 +153,9 @@ const MainSection = () => {
                 ) : (
                   <RiSettings3Fill
                     onClick={() => setHasSidebar(!hasSidebar)}
-                    className="z-20 bottom-4 left-4 absolute w-5 h-5 cursor-pointer fill-current text-my-blue"
+                    className={`${
+                      nilaiLen === 0 ? 'hidden' : ''
+                    } z-20 bottom-4 left-4 absolute w-5 h-5 cursor-pointer fill-current text-my-blue`}
                   />
                 )}
               </div>

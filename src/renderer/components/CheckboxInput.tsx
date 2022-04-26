@@ -1,9 +1,9 @@
-import { FunctionComponent, MouseEventHandler } from 'react';
+import { FunctionComponent } from 'react';
 
 interface CheckboxProps {
   value: string;
   checked?: boolean;
-  onClick?: MouseEventHandler<HTMLInputElement> | undefined;
+  onClick?: React.ChangeEventHandler | undefined;
 }
 
 const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
@@ -18,7 +18,7 @@ const CheckBoxInput: FunctionComponent<CheckboxProps> = (props) => {
           value={value}
           defaultChecked={checked}
           id={`checkbox-${value}`}
-          onClick={onClick}
+          onChange={onClick}
           required
         />
         <div className="bg-white border-2 rounded-md border-my-grey w-5 h-5 flex flex-shrink-0 justify-center items-center mr-2">
