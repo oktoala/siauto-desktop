@@ -9,10 +9,37 @@ interface PreferencesProps {
 }
 
 const Preferences = (props: PreferencesProps) => {
+  const arrayNumber = ['3', '4', '5'];
   const { hasSidebar, radioChecked, radioChange } = props;
+  // function onClickCheckBtn(label: string) {
+  //   /* Detect if the label found in the array */
+  //   const index = dataColleger.nilai.indexOf(label);
+  //   if (index !== -1) {
+  //     dataColleger.nilai.splice(index, 1);
+  //   } else {
+  //     dataColleger.nilai.push(label);
+  //   }
+
+  //   dataColleger.nilai.sort();
+
+  //   if (dataColleger.nilai.length !== 0) {
+  //     setCheckRequired(false);
+  //     return;
+  //   }
+  //   setCheckRequired(true);
+  // }
 
   const handleInput = (e: any) => {
-    console.log(e.target.value);
+    const number = e.target.value;
+    const index = arrayNumber.indexOf(number);
+
+    if (index !== -1) {
+      arrayNumber.splice(index, 1);
+    } else {
+      arrayNumber.push(number);
+    }
+
+    console.log(arrayNumber);
   };
 
   return (
