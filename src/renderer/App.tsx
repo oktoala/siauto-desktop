@@ -39,8 +39,15 @@ const MainSection = () => {
   const [radioChecked, setRadioChecked] = useState(getDate.semester);
   const [semester, setSemester] = useState(getDate.semester);
   const [hasSidebar, setHasSidebar] = useState(false);
-  const [display, setDisplay] = useState('');
   const tahunAjar = `${getDate.year}/${getDate.year + 1}`;
+  const [isRun, setIsRun] = useState(false);
+
+  const [alert, setAlert] = useState({
+    status: 'success',
+    header: 'Berhasill!!',
+    text: 'Kuesioner berhasil diisi',
+    hidden: false,
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
@@ -48,6 +55,13 @@ const MainSection = () => {
     event.stopPropagation();
 
     if (form.checkValidity() !== false) {
+      setAlert({
+        status: 'run',
+        header: 'Tunggu Sebentar',
+        text: 'Masih Dikerjain',
+        hidden: false,
+      });
+      setIsRun(true);
       // ipcRenderer.send('Coba', dataColleger);
       // ipcRenderer.on('res', (_event: IpcRendererEvent, arg: any) => {
       //   setResponse({ response: arg.response, variantAlert: arg.variantAlert });
@@ -73,11 +87,11 @@ const MainSection = () => {
         <div className="flex items-center h-screen justify-center">
           <div>
             <Alert
-              status="success"
-              header="Berhasil!"
-              text="Kuesioner berhasil diisi"
-              display={display}
-              onClick={() => setDisplay('hidden')}
+              status={alert.status}
+              header={alert.header}
+              text={alert.text}
+              hidden={alert.hidden}
+              onClick={() => setAlert({ ...alert, hidden: true })}
             />
             <h2 className="font-bold uppercase text-center text-2xl text-my-blue">{`Semester ${tahunAjar} ${semester}`}</h2>
             <form action="" onSubmit={handleSubmit}>
@@ -100,8 +114,13 @@ const MainSection = () => {
               </div>
               <div className="flex justify-center py-2">
                 <button
+                  disabled={isRun}
                   type="submit"
-                  className=" w-full bg-my-blue text-white font-semibold rounded-full h-9 text-center hover:brightness-125"
+                  className={` w-full ${
+                    isRun
+                      ? 'bg-my-grey cursor-default'
+                      : 'bg-my-blue hover:brightness-125'
+                  }  text-white font-semibold rounded-full h-9 text-center `}
                 >
                   Let&apos;s Go!
                 </button>
