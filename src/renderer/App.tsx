@@ -77,7 +77,7 @@ const MainSection = () => {
     setRadioChecked(e.target.value);
     setSemester(e.target.value);
   };
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const number = e.target.value;
     const index = nilai.indexOf(number);
 
@@ -87,8 +87,6 @@ const MainSection = () => {
       nilai.push(number);
     }
     nilai.sort();
-
-    console.log(nilai.length);
 
     setNilai(nilai);
     setNilaiLen(nilai.length);
@@ -158,6 +156,15 @@ const MainSection = () => {
                     } z-20 bottom-4 left-4 absolute w-5 h-5 cursor-pointer fill-current text-my-blue`}
                   />
                 )}
+                <p
+                  className={`z-20 bottom-[1.2rem] w-1/2 h-5 left-11 absolute fill-current ${
+                    nilaiLen !== 0 ? 'text-my-blue' : 'text-red-400'
+                  }`}
+                >
+                  {nilaiLen !== 0
+                    ? 'Preferensi'
+                    : 'Checkbox Tidak Boleh Kosong'}
+                </p>
               </div>
             </form>
           </div>

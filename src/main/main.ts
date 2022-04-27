@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-named-as-default-member */
@@ -45,15 +46,16 @@ let mainWindow: BrowserWindow;
 let browserExe = 'google-chrome';
 let profilDir = '';
 
-ipcMain.on('Open', async (event, arg) => {
+ipcMain.on('Open', async (_event) => {
   const browsers = await puppeteer.launch({
     executablePath: browserExe,
     userDataDir: profilDir,
-    headless: arg,
+    headless: true,
   });
   browsers.close();
-  console.log(`Browser Udah dibuka ${typeof event}`);
 });
+
+
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -98,6 +100,8 @@ const createWindow = async () => {
     show: false,
     width: 728,
     height: 700,
+    minWidth: 728,
+    minHeight: 700,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -143,19 +147,18 @@ const createWindow = async () => {
   if (os.platform() === 'linux') {
     // Check Google Chrome
     if (fs.existsSync('/usr/bin/google-chrome-stable')) {
-      browserExe = 'google-chrome-stable';
+      browserExe = '/usr/bin/google-chrome-stable';
       profilDir = `/home/${username}/.config/google-chrome/Default`;
       console.log('Memakai Chrome...');
     }
     // Check Brave Browser
     else if (fs.existsSync('/usr/bin/brave')) {
-      browserExe = 'brave';
+      browserExe = '/usr/bin/brave';
       profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
       console.log('Memakai Brave...');
     }
   } else if (os.platform() === 'win32') {
     console.log('Windows');
-    // eslint-disable-next-line prettier/prettier
     // Untuk Chrome 64 bit
     if (
       fs.existsSync(
@@ -165,7 +168,6 @@ const createWindow = async () => {
       console.log('Memakai Chrome64-bit...');
       browserExe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
       profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
-      // eslint-disable-next-line prettier/prettier
     }
     // Untuk Chrome 32 bit
     else if (
@@ -454,4 +456,9 @@ ipcMain.on('Coba', async (_event, arg) => {
 
   mainWindow.webContents.send('res', result);
   console.log(result);
+});
+
+ipcMain.on('GetBrowser', async (_event, arg) => {
+  console.log(arg);
+  mainWindow.webContents.send('Browser', browserExe);
 });
