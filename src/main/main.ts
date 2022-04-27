@@ -58,7 +58,7 @@ let mainWindow: BrowserWindow;
 let browserExe = 'google-chrome';
 let profilDir = '';
 
-ipcMain.on('Open', async (_event) => {
+ipcMain.on('Open', async () => {
   const browsers = await puppeteer.launch({
     executablePath: browserExe,
     userDataDir: profilDir,

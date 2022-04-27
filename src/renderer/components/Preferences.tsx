@@ -21,6 +21,8 @@ interface PreferencesProps {
 
 const Preferences = (props: PreferencesProps) => {
   const { hasSidebar, radioChecked, radioChange, onClick } = props;
+  const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
   const [dataBrowser, setDataBrowser] = useState<DataBrowser>({
     browserExe: [],
     browserProfile: [],
@@ -40,6 +42,17 @@ const Preferences = (props: PreferencesProps) => {
   // function getIcon() {
   //   return <SiBrave />;
   // }
+
+  const handleSelect: React.MouseEventHandler = (_event) => {
+    console.log(_event.currentTarget.attributes[1].value);
+    const i = _event.currentTarget.attributes[1].value;
+    setIndex(parseInt(i, 10));
+    setOpen(false);
+  };
+
+  const onOpen = () => {
+    setOpen(!open);
+  };
 
   // const handleExe = () => {
   //   ipcRenderer.send('ChangeExe', browser);
@@ -69,9 +82,14 @@ const Preferences = (props: PreferencesProps) => {
       </div>
       <h5 className="font-medium text-lg text-my-blue">Browser</h5>
       <div className="flex py-2">
-        <Select onClick={() => {}} dataBrowser={dataBrowser} />
+        <Select
+          onClick={handleSelect}
+          dataBrowser={dataBrowser}
+          index={index}
+          open={open}
+          onOpen={onOpen}
+        />
       </div>
-      {console.log(dataBrowser)}
     </Sidebar>
   );
 };
