@@ -42,6 +42,18 @@ interface DataColleger {
   cobaDulu: boolean;
 }
 
+interface DataBrowser {
+  browserExe: string[];
+  browserProfile: string[];
+  browserName: string[];
+}
+
+const dataBrowser: DataBrowser = {
+  browserExe: [],
+  browserProfile: [],
+  browserName: [],
+};
+
 let mainWindow: BrowserWindow;
 let browserExe = 'google-chrome';
 let profilDir = '';
@@ -54,8 +66,6 @@ ipcMain.on('Open', async (_event) => {
   });
   browsers.close();
 });
-
-
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -147,15 +157,19 @@ const createWindow = async () => {
   if (os.platform() === 'linux') {
     // Check Google Chrome
     if (fs.existsSync('/usr/bin/google-chrome-stable')) {
-      browserExe = '/usr/bin/google-chrome-stable';
-      profilDir = `/home/${username}/.config/google-chrome/Default`;
-      console.log('Memakai Chrome...');
+      dataBrowser.browserExe.push('/usr/bin/google-chrome-stable');
+      dataBrowser.browserProfile.push(
+        `/home/${username}/.config/google-chrome/Default`
+      );
+      dataBrowser.browserName.push('Chrome');
     }
     // Check Brave Browser
-    else if (fs.existsSync('/usr/bin/brave')) {
-      browserExe = '/usr/bin/brave';
-      profilDir = `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`;
-      console.log('Memakai Brave...');
+    if (fs.existsSync('/usr/bin/brave')) {
+      dataBrowser.browserExe.push('/usr/bin/brave');
+      dataBrowser.browserProfile.push(
+        `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`
+      );
+      dataBrowser.browserName.push('Brave');
     }
   } else if (os.platform() === 'win32') {
     console.log('Windows');
@@ -231,7 +245,7 @@ app
 
 const scrapeImages = async (mahasiswa: DataColleger) => {
   const browser = await puppeteer.launch({
-    executablePath: browserExe,
+    executablePath: dataBrowser.browserExe[0],
     userDataDir: profilDir,
     headless: true,
   });
@@ -460,5 +474,5 @@ ipcMain.on('Coba', async (_event, arg) => {
 
 ipcMain.on('GetBrowser', async (_event, arg) => {
   console.log(arg);
-  mainWindow.webContents.send('Browser', browserExe);
+  mainWindow.webContents.send('Browser', dataBrowser);
 });
