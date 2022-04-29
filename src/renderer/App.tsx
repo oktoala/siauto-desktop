@@ -42,7 +42,7 @@ const MainSection = () => {
     status: 'success',
     header: 'Berhasill!!',
     text: 'Kuesioner berhasil diisi',
-    hidden: false,
+    hidden: true,
   });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -63,11 +63,11 @@ const MainSection = () => {
         nim,
         password: passwd,
         nilai,
-        semId: `${getDate.year + id}`,
+        semId: `${getDate.year}${id}`,
         cobaDulu: coba,
       };
       ipcRenderer.send('run-siauto', dataColleger);
-      ipcRenderer.on('res', (_event, arg: any) => {
+      ipcRenderer.on('res', (_event, arg) => {
         setAlert(arg);
         setIsRun(false);
       });

@@ -245,10 +245,11 @@ app
   .catch(console.log);
 
 const scrapeImages = async (mahasiswa: DataColleger) => {
+  let emoji = '❔';
   const browser = await puppeteer.launch({
     executablePath: dataBrowser.browserExe[index],
     userDataDir: dataBrowser.browserProfile[index],
-    headless: true,
+    headless: process.env.NODE_ENV === 'production',
   });
   const page = await browser.newPage();
 
@@ -288,6 +289,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         })
         .then(() => console.log('Dapat KHS'));
     } catch (error) {
+      await browser.close();
       return {
         status: 'failed',
         header: 'NIM & Password Tidak Cocok',
@@ -347,7 +349,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 
     // Get All the link to array
     const data = await page.evaluate(() => {
-      const hrefs = document.querySelectorAll('#response a');
+      const hrefs = document.querySelectorAll('#table-1 a');
 
       const href = Array.from(hrefs).map((v) => v.getAttribute('href'));
 
@@ -363,11 +365,9 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       const pageKHS = await browser.newPage();
       await pageKHS.goto(link);
 
-      await pageKHS
-        .waitForSelector('#sipform > div > ul > li > a', {
-          visible: true,
-        })
-        .then(() => console.log('Udah di kuesioner'));
+      await pageKHS.waitForSelector('#sipform > div > ul > li > a', {
+        visible: true,
+      });
 
       // Get All tabs (ex: Kesiapan Mengajar, Materi Pengajaran, ...)
       const tabs = await pageKHS.evaluate(() => {
@@ -405,15 +405,13 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         // ! Comment this line if youre ready
         if (tab === '#tabs8') {
           await pageKHS.type('textarea', '✌️');
-          console.log(typeof names);
-          const buttonSubmit = await pageKHS.evaluate(() => {
-            if (process.env.NODE_ENV === 'production') {
+          if (process.env.NODE_ENV === 'production') {
+            await pageKHS.evaluate(() => {
               (document.querySelector('#submit') as HTMLElement).click();
-            }
-            console.log('Submit');
-            return 'Makan';
-          });
-          console.log(buttonSubmit);
+              console.log('Submit');
+            });
+            emoji = '💪';
+          }
           // eslint-disable-next-line no-continue
           continue;
         }
@@ -445,17 +443,23 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 
     // await page.close();
     // await pageKHS.close();
-    // await browser.close();
 
+    if (process.env.NODE_ENV === 'production') {
+      await browser.close();
+    }
     return {
       status: 'success',
-      header: 'BERHASIL 💪',
-      text: 'Kalian bisa cek di halaman SIA kalian',
+      header: `BERHASIL ${emoji}`,
+      text: 'Silahkan cek di halaman SIA kalian',
       hidden: false,
     };
   } catch (e: any) {
     console.log(`e: ${e}, e.name: ${e.name}`);
+    await browser.close();
     if (e.name === 'TypeError') {
+      if (process.env.NODE_ENV === 'production') {
+        await browser.close();
+      }
       return {
         status: 'failed',
         header: 'NIM & Password Tidak Cocok',
@@ -484,7 +488,7 @@ ipcMain.on('run-siauto', async (_event, arg) => {
 });
 
 // Get browser
-ipcMain.on('GetBrowser', async (_event) => {
+ipcMain.on('GetBrowser', async () => {
   mainWindow.webContents.send('Browser', dataBrowser);
 });
 
