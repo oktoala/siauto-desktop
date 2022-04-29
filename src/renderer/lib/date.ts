@@ -26,6 +26,7 @@ const getDate = () => {
   return {
     year: currYear,
     semester: whichSemester,
+    default: whichSemester,
   };
 };
 

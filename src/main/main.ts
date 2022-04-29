@@ -245,7 +245,7 @@ app
   .catch(console.log);
 
 const scrapeImages = async (mahasiswa: DataColleger) => {
-  let emoji = '❔';
+  let emoji = '🥳';
   const browser = await puppeteer.launch({
     executablePath: dataBrowser.browserExe[index],
     userDataDir: dataBrowser.browserProfile[index],

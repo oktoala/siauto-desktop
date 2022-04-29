@@ -3,6 +3,7 @@ import CheckBoxInput from './CheckboxInput';
 import RadioButtonInput from './RadioButtonInput';
 import Select from './Select';
 import Sidebar from './Sidebar';
+import getDate from '../lib/date';
 
 interface DataBrowser {
   browserExe: string[];
@@ -88,11 +89,13 @@ const Preferences = (props: PreferencesProps) => {
           checked={radioChecked}
           onChange={radioChange}
         />
-        <RadioButtonInput
-          value="Genap"
-          checked={radioChecked}
-          onChange={radioChange}
-        />
+        {getDate.default !== 'Ganjil' && (
+          <RadioButtonInput
+            value="Genap"
+            checked={radioChecked}
+            onChange={radioChange}
+          />
+        )}
       </div>
       <h5 className="font-medium text-lg text-my-blue">Browser</h5>
       <div className="flex py-2">
