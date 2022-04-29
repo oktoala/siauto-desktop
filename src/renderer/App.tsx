@@ -16,26 +16,20 @@ import getDate from './lib/date';
 
 const { ipcRenderer } = window.require('electron');
 
-// interface DataColleger {
-//   nim: string;
-//   password: string;
-//   semId: string | undefined;
-//   nilai: (string | undefined)[];
-//   cobaDulu: boolean;
-// }
+interface DataColleger {
+  nim: string;
+  password: string;
+  semId: string | undefined;
+  nilai: (string | undefined)[];
+  cobaDulu: boolean;
+}
 
-// const dataColleger: DataColleger = {
-//   nim: '',
-//   password: '',
-//   nilai: [],
-//   semId: '',
-//   cobaDulu: false,
-// };
 /* Form Input */
 
 const MainSection = () => {
   const [nim, setNim] = useState('');
   const [passwd, setPasswd] = useState('');
+  const [coba, setCoba] = useState(true);
   const [radioChecked, setRadioChecked] = useState(getDate.semester);
   const [semester, setSemester] = useState(getDate.semester);
   const [hasSidebar, setHasSidebar] = useState(false);
@@ -64,12 +58,19 @@ const MainSection = () => {
         hidden: false,
       });
       setIsRun(true);
-      // ipcRenderer.send('Coba', dataColleger);
-      // ipcRenderer.on('res', (_event: IpcRendererEvent, arg: any) => {
-      //   setResponse({ response: arg.response, variantAlert: arg.variantAlert });
-      //   setLoading(false);
-      // });
-      // setResponse({ response: data.response, variantAlert: data.variantAlert });
+      const id = semester === 'Ganjil' ? 1 : 2;
+      const dataColleger: DataColleger = {
+        nim,
+        password: passwd,
+        nilai,
+        semId: `${getDate.year + id}`,
+        cobaDulu: coba,
+      };
+      ipcRenderer.send('run-siauto', dataColleger);
+      ipcRenderer.on('res', (_event, arg: any) => {
+        setAlert(arg);
+        setIsRun(false);
+      });
     }
   };
 
@@ -127,7 +128,11 @@ const MainSection = () => {
                 onChange={(e) => setPasswd(e.target.value)}
               />
               <div className="flex py-2">
-                <CheckBoxInput value="Isi Satu Dulu" checked />
+                <CheckBoxInput
+                  value="Isi Satu Dulu"
+                  checked={coba}
+                  onClick={() => setCoba(!coba)}
+                />
               </div>
               <div className="flex justify-center py-2">
                 <button
@@ -158,7 +163,7 @@ const MainSection = () => {
                 )}
                 <p
                   className={`z-20 bottom-[1.2rem] w-1/2 h-5 left-11 absolute fill-current ${
-                    nilaiLen !== 0 ? 'text-my-blue' : 'text-red-400'
+                    nilaiLen !== 0 ? 'text-my-blue' : 'text-red-400 font-black'
                   }`}
                 >
                   {nilaiLen !== 0

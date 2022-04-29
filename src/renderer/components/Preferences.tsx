@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { SiBrave } from 'react-icons/si';
 import CheckBoxInput from './CheckboxInput';
 import RadioButtonInput from './RadioButtonInput';
 import Select from './Select';
@@ -23,6 +22,7 @@ const Preferences = (props: PreferencesProps) => {
   const { hasSidebar, radioChecked, radioChange, onClick } = props;
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
+  const [load, setLoad] = useState(false);
   const [dataBrowser, setDataBrowser] = useState<DataBrowser>({
     browserExe: [],
     browserProfile: [],
@@ -39,12 +39,26 @@ const Preferences = (props: PreferencesProps) => {
     );
   }, []);
 
+  useEffect(() => {
+    if (load) {
+      ipcRenderer.send('SetBrowser', index);
+    } else {
+      setLoad(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
+
+  useEffect(() => {
+    if (!hasSidebar) {
+      setOpen(false);
+    }
+  }, [hasSidebar]);
+
   // function getIcon() {
   //   return <SiBrave />;
   // }
 
   const handleSelect: React.MouseEventHandler = (_event) => {
-    console.log(_event.currentTarget.attributes[1].value);
     const i = _event.currentTarget.attributes[1].value;
     setIndex(parseInt(i, 10));
     setOpen(false);

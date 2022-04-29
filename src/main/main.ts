@@ -57,6 +57,7 @@ const dataBrowser: DataBrowser = {
 let mainWindow: BrowserWindow;
 let browserExe = 'google-chrome';
 let profilDir = '';
+let index = 0;
 
 ipcMain.on('Open', async () => {
   const browsers = await puppeteer.launch({
@@ -245,8 +246,8 @@ app
 
 const scrapeImages = async (mahasiswa: DataColleger) => {
   const browser = await puppeteer.launch({
-    executablePath: dataBrowser.browserExe[0],
-    userDataDir: profilDir,
+    executablePath: dataBrowser.browserExe[index],
+    userDataDir: dataBrowser.browserProfile[index],
     headless: true,
   });
   const page = await browser.newPage();
@@ -288,8 +289,10 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         .then(() => console.log('Dapat KHS'));
     } catch (error) {
       return {
-        response: 'NIM dan Password tidak cocok. Silahkan coba lagi',
-        variantAlert: 'danger',
+        status: 'failed',
+        header: 'NIM & Password Tidak Cocok',
+        text: 'Silahkan coba lagi',
+        hidden: false,
       };
     }
 
@@ -445,26 +448,34 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     // await browser.close();
 
     return {
-      response: 'Berhasil!! Kuesioner Telah diisi 🎉🎉',
-      variantAlert: 'success',
+      status: 'success',
+      header: 'BERHASIL 💪',
+      text: 'Kalian bisa cek di halaman SIA kalian',
+      hidden: false,
     };
   } catch (e: any) {
     console.log(`e: ${e}, e.name: ${e.name}`);
     if (e.name === 'TypeError') {
       return {
-        response: 'NIM dan Password tidak cocok. Silahkan coba lagi.',
-        variantAlert: 'danger',
+        status: 'failed',
+        header: 'NIM & Password Tidak Cocok',
+        text: 'Silahkan coba lagi',
+        hidden: false,
       };
     }
     return {
-      response:
-        '❌Terlalu Lama untuk Request. Mungkin jaringan anda bermasalah. Silahkan Coba lagi ',
-      variantAlert: 'danger',
+      status: 'failed',
+      header: 'Terlalu Lama Untuk Mengerjakan',
+      text: 'Mungkin jaringan anda bermasalah. Silahkan coba lagi',
+      hidden: false,
     };
   }
 };
 
-ipcMain.on('Coba', async (_event, arg) => {
+// IPC
+
+// Ipc for scrapimages
+ipcMain.on('run-siauto', async (_event, arg) => {
   console.log(arg);
   const result = await scrapeImages(arg);
 
@@ -472,7 +483,12 @@ ipcMain.on('Coba', async (_event, arg) => {
   console.log(result);
 });
 
-ipcMain.on('GetBrowser', async (_event, arg) => {
-  console.log(arg);
+// Get browser
+ipcMain.on('GetBrowser', async (_event) => {
   mainWindow.webContents.send('Browser', dataBrowser);
+});
+
+// Set the browser
+ipcMain.on('SetBrowser', async (_event, arg) => {
+  index = arg;
 });
