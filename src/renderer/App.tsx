@@ -186,7 +186,6 @@ export default function App() {
     <Router>
       <Switch>
         <Route path="/" component={MainSection} />
-        {ipcRenderer.send('Open', true)}
       </Switch>
     </Router>
   );

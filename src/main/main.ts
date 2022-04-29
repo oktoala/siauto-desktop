@@ -17,12 +17,12 @@ import 'regenerator-runtime/runtime';
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import os from 'os';
-import fs from 'fs';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 // eslint-disable-next-line import/no-named-as-default
 // import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import browse from './browse';
 
 const puppeteer = require('puppeteer-core');
 
@@ -55,18 +55,7 @@ const dataBrowser: DataBrowser = {
 };
 
 let mainWindow: BrowserWindow;
-let browserExe = 'google-chrome';
-let profilDir = '';
 let index = 0;
-
-ipcMain.on('Open', async () => {
-  const browsers = await puppeteer.launch({
-    executablePath: browserExe,
-    userDataDir: profilDir,
-    headless: true,
-  });
-  browsers.close();
-});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -155,67 +144,50 @@ const createWindow = async () => {
 
   const { username } = os.userInfo();
   console.log(`👌 Hallo ${username}`);
-  if (os.platform() === 'linux') {
-    // Check Google Chrome
-    if (fs.existsSync('/usr/bin/google-chrome-stable')) {
-      dataBrowser.browserExe.push('/usr/bin/google-chrome-stable');
-      dataBrowser.browserProfile.push(
-        `/home/${username}/.config/google-chrome/Default`
-      );
-      dataBrowser.browserName.push('Chrome');
+  if (browse.isLinux) {
+    // Google Chrome
+    if (browse.isBl()) {
+      dataBrowser.browserExe.push(browse.blExe);
+      dataBrowser.browserProfile.push(browse.blProf(username));
+      dataBrowser.browserName.push(browse.brave);
     }
     // Check Brave Browser
-    if (fs.existsSync('/usr/bin/brave')) {
-      dataBrowser.browserExe.push('/usr/bin/brave');
-      dataBrowser.browserProfile.push(
-        `/home/${username}/.config/BraveSoftware/Brave-Browser/Default`
-      );
-      dataBrowser.browserName.push('Brave');
+    if (browse.isCl()) {
+      dataBrowser.browserExe.push(browse.clExe);
+      dataBrowser.browserProfile.push(browse.clProf(username));
+      dataBrowser.browserName.push(browse.chrome);
     }
-  } else if (os.platform() === 'win32') {
+    // Microsoft Edge
+    if (browse.isMsel()) {
+      dataBrowser.browserExe.push(browse.mselExe);
+      dataBrowser.browserProfile.push(browse.mseProf(username));
+      dataBrowser.browserName.push(browse.edge);
+    }
+  } else if (browse.isWindows) {
     console.log('Windows');
     // Untuk Chrome 64 bit
-    if (
-      fs.existsSync(
-        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-      )
-    ) {
-      console.log('Memakai Chrome64-bit...');
-      browserExe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
+    if (browse.isCw64()) {
+      dataBrowser.browserExe.push(browse.cw64Exe);
+      dataBrowser.browserProfile.push(browse.cwProf(username));
+      dataBrowser.browserName.push(browse.chrome);
     }
     // Untuk Chrome 32 bit
-    else if (
-      fs.existsSync(
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
-      )
-    ) {
-      console.log('Memakai Chrome32-bit...');
-      browserExe =
-        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
-      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Google\\Chrome\\User Data\\Default`;
-    }
-    // Untuk Edge 32 bit
-    else if (
-      fs.existsSync(
-        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
-      )
-    ) {
-      // eslint-disable-next-line prettier/prettier
-      browserExe =
-        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+    if (browse.isCw32()) {
+      dataBrowser.browserExe.push(browse.cw32Exe);
+      dataBrowser.browserProfile.push(browse.cwProf(username));
+      dataBrowser.browserName.push(browse.chrome);
     }
     // Untuk Edge 64 bit
-    else if (
-      fs.existsSync(
-        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
-      )
-    ) {
-      // eslint-disable-next-line prettier/prettier
-      browserExe =
-        'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
-      profilDir = `C:\\Users\\${username}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
+    if (browse.isMsew64()) {
+      dataBrowser.browserExe.push(browse.msew64Exe);
+      dataBrowser.browserProfile.push(browse.msewProf(username));
+      dataBrowser.browserName.push(browse.edge);
+    }
+    // Untuk Edge 32 bit
+    else if (browse.isCw32()) {
+      dataBrowser.browserExe.push(browse.msew32Exe);
+      dataBrowser.browserProfile.push(browse.msewProf(username));
+      dataBrowser.browserName.push(browse.edge);
     }
   }
 };
