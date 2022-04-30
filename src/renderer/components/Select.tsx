@@ -53,9 +53,9 @@ const Select = (props: DataSelect) => {
                 className="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none"
               >
                 {open ? (
-                  <MdArrowDropDown size={24} />
-                ) : (
                   <MdArrowDropUp size={24} />
+                ) : (
+                  <MdArrowDropDown size={24} />
                 )}
               </button>
             </div>

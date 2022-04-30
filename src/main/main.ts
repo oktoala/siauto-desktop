@@ -384,10 +384,12 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         if (tab === '#tabs8') {
           await pageKHS.type('textarea', '✌️');
           if (process.env.NODE_ENV === 'production') {
+            await page.click('#submit');
             await pageKHS.evaluate(() => {
               (document.querySelector('#submit') as HTMLElement).click();
               console.log('Submit');
             });
+
             emoji = '💪';
           }
           // eslint-disable-next-line no-continue
@@ -462,7 +464,6 @@ ipcMain.on('run-siauto', async (_event, arg) => {
   const result = await scrapeImages(arg);
 
   mainWindow.webContents.send('res', result);
-  console.log(result);
 });
 
 // Get browser
