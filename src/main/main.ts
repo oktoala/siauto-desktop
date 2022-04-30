@@ -382,15 +382,14 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 
         // ! Comment this line if youre ready
         if (tab === '#tabs8') {
-          await pageKHS.type('textarea', '✌️');
+          // await pageKHS.type('textarea', '✌️');
           if (process.env.NODE_ENV === 'production') {
-            await page.click('#submit');
-            await pageKHS.evaluate(() => {
+            console.log('👌');
+            const click = await pageKHS.evaluate(() => {
               (document.querySelector('#submit') as HTMLElement).click();
-              console.log('Submit');
+              return '💪';
             });
-
-            emoji = '💪';
+            emoji = click;
           }
           // eslint-disable-next-line no-continue
           continue;
@@ -424,7 +423,8 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     // await page.close();
     // await pageKHS.close();
 
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production' || emoji === '💪') {
+
       await browser.close();
     }
     return {
