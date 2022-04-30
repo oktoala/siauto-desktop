@@ -3,6 +3,7 @@ import CheckBoxInput from './CheckboxInput';
 import RadioButtonInput from './RadioButtonInput';
 import Select from './Select';
 import Sidebar from './Sidebar';
+import Switch from './FavoriteDosen';
 import getDate from '../lib/date';
 
 interface DataBrowser {
@@ -17,10 +18,13 @@ interface PreferencesProps {
   radioChecked: string;
   onClick: React.ChangeEventHandler | undefined;
   radioChange: React.ChangeEventHandler;
+  toggle: boolean;
+  onSwitch: () => void;
 }
 
 const Preferences = (props: PreferencesProps) => {
-  const { hasSidebar, radioChecked, radioChange, onClick } = props;
+  const { hasSidebar, radioChecked, radioChange, onClick, toggle, onSwitch } =
+    props;
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
@@ -96,6 +100,10 @@ const Preferences = (props: PreferencesProps) => {
             onChange={radioChange}
           />
         )}
+      </div>
+      <h5 className="font-medium text-lg text-my-blue">Dosen Favorite</h5>
+      <div className="flex py-2">
+        <Switch toggle={toggle} onClick={onSwitch} />
       </div>
       <h5 className="font-medium text-lg text-my-blue">Browser</h5>
       <div className="flex py-2">

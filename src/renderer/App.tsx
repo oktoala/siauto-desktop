@@ -2,7 +2,7 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 // import { IpcRendererEvent } from 'electron';
 import React, { FormEvent, useState } from 'react';
-import { IoPersonCircleOutline } from 'react-icons/io5';
+import { IoPersonCircleOutline, IoSchoolOutline } from 'react-icons/io5';
 import {
   RiLockPasswordLine,
   RiSettings3Line,
@@ -22,6 +22,8 @@ interface DataColleger {
   semId: string | undefined;
   nilai: (string | undefined)[];
   cobaDulu: boolean;
+  isOn: boolean;
+  favDos: string;
 }
 
 /* Form Input */
@@ -29,6 +31,7 @@ interface DataColleger {
 const MainSection = () => {
   const [nim, setNim] = useState('');
   const [passwd, setPasswd] = useState('');
+  const [favDos, setFavDos] = useState('');
   const [coba, setCoba] = useState(true);
   const [radioChecked, setRadioChecked] = useState(getDate.semester);
   const [semester, setSemester] = useState(getDate.semester);
@@ -37,6 +40,7 @@ const MainSection = () => {
   const [isRun, setIsRun] = useState(false);
   const [nilai, setNilai] = useState(['3', '4', '5']);
   const [nilaiLen, setNilaiLen] = useState(nilai.length);
+  const [isFavDosen, setIsFavDosen] = useState(false);
 
   const [alert, setAlert] = useState({
     status: 'success',
@@ -65,6 +69,8 @@ const MainSection = () => {
         nilai,
         semId: `${getDate.year}${id}`,
         cobaDulu: coba,
+        isOn: isFavDosen,
+        favDos,
       };
       ipcRenderer.send('run-siauto', dataColleger);
       ipcRenderer.on('res', (_event, arg) => {
@@ -100,6 +106,8 @@ const MainSection = () => {
         hasSidebar={hasSidebar}
         radioChange={radioChange}
         radioChecked={radioChecked}
+        onSwitch={() => setIsFavDosen(!isFavDosen)}
+        toggle={isFavDosen}
       />
       <section className="w-full h-screen ">
         <div className="flex items-center h-screen justify-center">
@@ -127,13 +135,24 @@ const MainSection = () => {
                 value={passwd}
                 onChange={(e) => setPasswd(e.target.value)}
               />
-              <div className="flex py-2">
-                <CheckBoxInput
-                  value="Isi Satu Dulu"
-                  checked={coba}
-                  onClick={() => setCoba(!coba)}
+              {isFavDosen && (
+                <FormInput
+                  label="Dosen Favorit"
+                  icon={<IoSchoolOutline />}
+                  type="text"
+                  value={favDos}
+                  onChange={(e) => setFavDos(e.target.value)}
                 />
-              </div>
+              )}
+              {!isFavDosen && (
+                <div className="flex py-2">
+                  <CheckBoxInput
+                    value="Isi Satu Dulu"
+                    checked={coba}
+                    onClick={() => setCoba(!coba)}
+                  />
+                </div>
+              )}
               <div className="flex justify-center py-2">
                 <button
                   disabled={isRun}
