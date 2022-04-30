@@ -382,7 +382,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 
         // ! Comment this line if youre ready
         if (tab === '#tabs8') {
-          // await pageKHS.type('textarea', '✌️');
+          await pageKHS.type('textarea', 'Filled by SIAuto 🫣');
           if (process.env.NODE_ENV === 'production') {
             console.log('👌');
             const click = await pageKHS.evaluate(() => {
