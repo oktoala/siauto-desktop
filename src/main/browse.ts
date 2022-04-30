@@ -24,6 +24,7 @@ const cw32Exe =
 const msew64Exe = 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
 const msew32Exe =
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+const bw64Exe = 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
 
 // Profile in Linux
 const clProf = (user: string) => {
@@ -48,6 +49,10 @@ const msewProf = (user: string) => {
   return `C:\\Users\\${user}\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default`;
 };
 
+const bwProf = (user: string) => {
+  return `C:\\Users\\${user}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default`
+}
+
 // Check Browser exist in Linux
 const isBl = () => {
   return fs.existsSync(blExe);
@@ -63,8 +68,8 @@ const isMsel = () => {
 
 // Windows
 
-const isBw = () => {
-  return fs.existsSync('C:\\Program Files\\Brave\\Application\\brave.exe');
+const isBw64 = () => {
+  return fs.existsSync(bw64Exe);
 };
 
 const isCw64 = () => {
@@ -92,6 +97,7 @@ export default {
   blExe,
   clExe,
   mselExe,
+  bw64Exe,
   cw64Exe,
   cw32Exe,
   msew64Exe,
@@ -101,12 +107,13 @@ export default {
   mseProf,
   cwProf,
   msewProf,
+  bwProf,
   isBl,
   isCl,
   isMsel,
-  isBw,
+  isBw64,
   isCw64,
   isCw32,
   isMsew64,
-  isMsew32,
+  isMsew32
 };

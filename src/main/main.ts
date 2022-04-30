@@ -184,10 +184,16 @@ const createWindow = async () => {
       dataBrowser.browserName.push(browse.edge);
     }
     // Untuk Edge 32 bit
-    else if (browse.isCw32()) {
+    if (browse.isMsew32()) {
       dataBrowser.browserExe.push(browse.msew32Exe);
       dataBrowser.browserProfile.push(browse.msewProf(username));
       dataBrowser.browserName.push(browse.edge);
+    }
+    // Untuk Brave 64 bit
+    if (browse.isBw64()) {
+      dataBrowser.browserExe.push(browse.bw64Exe);
+      dataBrowser.browserProfile.push(browse.bwProf(username));
+      dataBrowser.browserName.push(browse.brave);
     }
   }
 };
