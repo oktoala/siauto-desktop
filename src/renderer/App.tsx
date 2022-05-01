@@ -1,7 +1,7 @@
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 // import { IpcRendererEvent } from 'electron';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import { IoPersonCircleOutline, IoSchoolOutline } from 'react-icons/io5';
 import {
   RiLockPasswordLine,
@@ -41,6 +41,7 @@ const MainSection = () => {
   const [nilai, setNilai] = useState(['3', '4', '5']);
   const [nilaiLen, setNilaiLen] = useState(nilai.length);
   const [isFavDosen, setIsFavDosen] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const [alert, setAlert] = useState({
     status: 'success',
@@ -79,6 +80,15 @@ const MainSection = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (load && !isFavDosen) {
+      setFavDos('');
+    } else {
+      setLoad(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFavDosen]);
 
   const radioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioChecked(e.target.value);

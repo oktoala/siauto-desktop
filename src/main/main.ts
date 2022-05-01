@@ -279,23 +279,10 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         hidden: false,
       };
     }
-    // await page.click('#collapse-1 > div:nth-child(1)');
-    // await page.click('li:nth-child(4) > a');
-    // await page.evaluate(() => {
-    //   (
-    //     document.querySelector('#collapse-1 > div:nth-child(1)') as HTMLElement
-    //   ).click();
-    //   (document.querySelector('li:nth-child(4) > a') as HTMLElement).click();
-    // });
-    // await page
-    //   .focus('a[href="https://sia.unmul.ac.id/pmhskhs"')
-    //   .then(() => console.log('Sudah Focus'));
-    // await page
-    //   .click('a[href="https://sia.unmul.ac.id/pmhskhs"')
-    //   .then(() => console.log('Sudah di click'));
 
     await page.evaluate(() => {
       // Kartu Hasil Studi
+      (document.querySelector('li:nth-child(4) > a') as HTMLElement).click();
       (
         document.querySelector(
           'li:nth-child(4) > ul > li:nth-child(1) > a'
@@ -341,6 +328,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     await page
       .waitForSelector('#response a', {
         visible: true,
+        timeout: 10000,
       })
       .then(() => console.log('Dapat Link'));
 
@@ -460,12 +448,19 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     if (process.env.NODE_ENV === 'production' || emoji === '💪') {
       await browser.close();
     }
-    return {
+    const response = {
       status: 'success',
       header: `BERHASIL ${emoji}`,
       text: 'Silahkan cek di halaman SIA kalian',
       hidden: false,
     };
+
+    if (data.length < 1) {
+      response.status = 'failed';
+      response.header = 'Dosen Tidak Ditemukan';
+      response.text = 'Perhatikan lagi nama dosen. Usahakan namanya kapital';
+    }
+    return response;
   } catch (e: any) {
     console.log(`e: ${e}, e.name: ${e.name}`);
     // await browser.close();
@@ -477,6 +472,15 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         status: 'failed',
         header: 'NIM & Password Tidak Cocok',
         text: 'Silahkan coba lagi',
+        hidden: false,
+      };
+    }
+    // eslint-disable-next-line no-else-return
+    else if (e.name === 'TimeoutError') {
+      return {
+        status: 'failed',
+        header: 'SIA Lagi Error ',
+        text: 'Kalau gak percaya, coba masuk halaman KHS berkali-kali',
         hidden: false,
       };
     }

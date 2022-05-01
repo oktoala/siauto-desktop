@@ -101,7 +101,7 @@ const Preferences = (props: PreferencesProps) => {
           />
         )}
       </div>
-      <h5 className="font-medium text-lg text-my-blue">Dosen Favorite</h5>
+      <h5 className="font-medium text-lg text-my-blue">Dosen Favorit</h5>
       <div className="flex py-2">
         <Switch toggle={toggle} onClick={onSwitch} />
       </div>
