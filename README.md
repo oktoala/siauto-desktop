@@ -16,6 +16,6 @@ npm run package
 ## To do
 + Redesign UI ✅
 + Able to choose browser ✅
-+ Most favorite lectures
++ Favorite lecture ✅
 + Better documentation
 + Mac Compability
