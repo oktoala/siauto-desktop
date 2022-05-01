@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-restricted-syntax */
@@ -40,6 +42,8 @@ interface DataColleger {
   semId: string | undefined;
   nilai: (string | undefined)[];
   cobaDulu: boolean;
+  isOn: boolean;
+  favDos: string;
 }
 
 interface DataBrowser {
@@ -263,7 +267,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       await page
         .waitForSelector('h2', {
           visible: true,
-          timeout: 5000,
+          timeout: 20000,
         })
         .then(() => console.log('Dapat KHS'));
     } catch (error) {
@@ -275,16 +279,31 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
         hidden: false,
       };
     }
+    // await page.click('#collapse-1 > div:nth-child(1)');
+    // await page.click('li:nth-child(4) > a');
+    // await page.evaluate(() => {
+    //   (
+    //     document.querySelector('#collapse-1 > div:nth-child(1)') as HTMLElement
+    //   ).click();
+    //   (document.querySelector('li:nth-child(4) > a') as HTMLElement).click();
+    // });
+    // await page
+    //   .focus('a[href="https://sia.unmul.ac.id/pmhskhs"')
+    //   .then(() => console.log('Sudah Focus'));
+    // await page
+    //   .click('a[href="https://sia.unmul.ac.id/pmhskhs"')
+    //   .then(() => console.log('Sudah di click'));
 
     await page.evaluate(() => {
       // Kartu Hasil Studi
       (
-        document.querySelector('li:nth-child(4) > ul > li > a') as HTMLElement
+        document.querySelector(
+          'li:nth-child(4) > ul > li:nth-child(1) > a'
+        ) as HTMLAnchorElement
       ).click();
     });
 
     // ! KHS Page
-
     await page.waitForSelector('h5', {
       visible: true,
     });
@@ -325,17 +344,32 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       })
       .then(() => console.log('Dapat Link'));
 
-    // Get All the link to array
-    const data = await page.evaluate(() => {
+    // Get All the href of every lecturer to array
+    const data = await page.evaluate((mahasiwa: DataColleger) => {
       const hrefs = document.querySelectorAll('#table-1 a');
 
-      const href = Array.from(hrefs).map((v) => v.getAttribute('href'));
+      const hrefArr = Array.from(hrefs).map((v) => {
+        if (mahasiwa.isOn && mahasiwa.favDos !== '') {
+          if (v.innerHTML.search(mahasiwa.favDos) !== -1) {
+            console.log('Masuk Dosen');
+            return v.getAttribute('href');
+          }
+        } else {
+          console.log('Masuk Sini');
+          return v.getAttribute('href');
+        }
+        console.log('Masuk Sana');
+        return '#';
+      });
 
-      console.log(`hrefs ${hrefs}`);
+      const hrefFilter = hrefArr.filter((v, i) => hrefArr.indexOf(v) !== i);
+      const href = hrefArr.filter((v) => !hrefFilter.includes(v));
+
+      // console.log(`hrefs ${hrefs}`);
       console.log(href);
 
       return href;
-    });
+    }, mahasiswa);
 
     // Execute every kuesioner
 
@@ -424,7 +458,6 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     // await pageKHS.close();
 
     if (process.env.NODE_ENV === 'production' || emoji === '💪') {
-
       await browser.close();
     }
     return {
@@ -435,7 +468,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     };
   } catch (e: any) {
     console.log(`e: ${e}, e.name: ${e.name}`);
-    await browser.close();
+    // await browser.close();
     if (e.name === 'TypeError') {
       if (process.env.NODE_ENV === 'production') {
         await browser.close();

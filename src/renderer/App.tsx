@@ -68,7 +68,7 @@ const MainSection = () => {
         password: passwd,
         nilai,
         semId: `${getDate.year}${id}`,
-        cobaDulu: coba,
+        cobaDulu: isFavDosen ? false : coba,
         isOn: isFavDosen,
         favDos,
       };
