@@ -110,7 +110,7 @@ const MainSection = () => {
   };
 
   return (
-    <main className="flex overflow-hidden">
+    <main className="flex overflow-hidden select-none">
       <Preferences
         onClick={handleInput}
         hasSidebar={hasSidebar}
@@ -171,7 +171,7 @@ const MainSection = () => {
                     isRun
                       ? 'bg-my-grey cursor-default'
                       : 'bg-my-blue hover:brightness-125'
-                  }  text-white font-semibold rounded-full h-9 text-center `}
+                  }  text-white font-semibold rounded-full h-9 text-center`}
                 >
                   Let&apos;s Go!
                 </button>
@@ -195,9 +195,7 @@ const MainSection = () => {
                     nilaiLen !== 0 ? 'text-my-blue' : 'text-red-400 font-black'
                   }`}
                 >
-                  {nilaiLen !== 0
-                    ? 'Preferensi'
-                    : 'Checkbox Tidak Boleh Kosong'}
+                  {nilaiLen !== 0 ? null : 'Checkbox Tidak Boleh Kosong'}
                 </p>
               </div>
             </form>

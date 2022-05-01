@@ -19,8 +19,6 @@ import 'regenerator-runtime/runtime';
 import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import os from 'os';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 // eslint-disable-next-line import/no-named-as-default
 // import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -28,13 +26,7 @@ import browse from './browse';
 
 const puppeteer = require('puppeteer-core');
 
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
+
 
 interface DataColleger {
   nim: string;
@@ -143,8 +135,6 @@ const createWindow = async () => {
   });
 
   // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
 
   const { username } = os.userInfo();
   console.log(`👌 Hallo ${username}`);
