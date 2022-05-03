@@ -5,12 +5,13 @@ interface FormInputProps {
   label: string;
   type: string;
   value: string;
+  min?: number;
   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
 }
 
 const FormInput = (props: FormInputProps) => {
   const [focus, setFocus] = useState('');
-  const { icon, label, type, value, onChange } = props;
+  const { icon, label, type, value, onChange, min } = props;
 
   return (
     <div
@@ -58,10 +59,15 @@ const FormInput = (props: FormInputProps) => {
           onChange={onChange}
           className="absolute w-full h-full py-2 px-3 outline-none inset-0 text-gray-700 "
           style={{ background: 'none' }}
+          minLength={min}
         />
       </div>
     </div>
   );
+};
+
+FormInput.defaultProps = {
+  min: 0,
 };
 
 export default FormInput;

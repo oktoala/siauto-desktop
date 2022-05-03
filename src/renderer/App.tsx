@@ -152,6 +152,7 @@ const MainSection = () => {
                   type="text"
                   value={favDos}
                   onChange={(e) => setFavDos(e.target.value)}
+                  min={3}
                 />
               )}
               {!isFavDosen && (
