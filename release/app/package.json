@@ -1,6 +1,6 @@
 {
   "name": "siauto-unmul",
-  "productName": "SIAuto Desktop",
+  "productName": "SIAuto Unmul",
   "version": "0.3.0",
   "description": "Untuk kalian yang malas isi kuesioner",
   "main": "./dist/main/main.js",
