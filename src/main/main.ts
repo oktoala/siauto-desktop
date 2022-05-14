@@ -394,7 +394,7 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
 
         // ! Comment this line if youre ready
         if (tab === '#tabs8') {
-          await pageKHS.type('textarea', 'Filled by SIAuto 🫣');
+          await pageKHS.type('textarea', 'Filled with SIAuto 🙃');
           if (process.env.NODE_ENV === 'production') {
             console.log('👌');
             const click = await pageKHS.evaluate(() => {
@@ -432,9 +432,6 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
       }
     }
 
-    // await page.close();
-    // await pageKHS.close();
-
     if (process.env.NODE_ENV === 'production' || emoji === '💪') {
       await browser.close();
     }
@@ -469,8 +466,8 @@ const scrapeImages = async (mahasiswa: DataColleger) => {
     else if (e.name === 'TimeoutError') {
       return {
         status: 'failed',
-        header: 'SIA Lagi Error ',
-        text: 'Kalau gak percaya, coba masuk halaman KHS berkali-kali',
+        header: 'Terjadi Kesalahan',
+        text: 'Silahkan Coba Lagi',
         hidden: false,
       };
     }
