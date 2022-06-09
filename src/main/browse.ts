@@ -3,6 +3,7 @@ import fs from 'fs';
 
 const isLinux = os.platform() === 'linux';
 const isWindows = os.platform() === 'win32';
+const isMac = os.platform() == 'darwin';
 const brave = 'Brave';
 const chrome = 'Chrome';
 const edge = 'Edge';
@@ -14,10 +15,12 @@ const edge = 'Edge';
 // w64 = Windows 64 Bit
 // w32 = Windows 32 Bit
 
+// Executable Linux
 const blExe = '/usr/bin/brave';
 const clExe = '/usr/bin/google-chrome-stable';
 const mselExe = '/usr/bin/microsoft-edge-stable';
 
+// Executable Windows
 const cw64Exe = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const cw32Exe =
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
@@ -25,6 +28,9 @@ const msew64Exe = 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
 const msew32Exe =
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const bw64Exe = 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
+
+// Executable Mac
+const cmExe = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 // Profile in Linux
 const clProf = (user: string) => {
@@ -51,6 +57,12 @@ const msewProf = (user: string) => {
 
 const bwProf = (user: string) => {
   return `C:\\Users\\${user}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default`
+}
+
+// Profile in Mac
+
+const cmProf = (user: string) => {
+  return `/Users/${user}/Library/Application Support/Google/Chrome/Profile 3`
 }
 
 // Check Browser exist in Linux
@@ -88,9 +100,16 @@ const isMsew32 = () => {
   return fs.existsSync(msew32Exe);
 };
 
+// Check browser exist in Mac
+
+const isCm = () => {
+  return fs.existsSync(cmExe);
+}
+
 export default {
   isLinux,
   isWindows,
+  isMac,
   brave,
   chrome,
   edge,
@@ -102,12 +121,14 @@ export default {
   cw32Exe,
   msew64Exe,
   msew32Exe,
+  cmExe,
   clProf,
   blProf,
   mseProf,
   cwProf,
   msewProf,
   bwProf,
+  cmProf,
   isBl,
   isCl,
   isMsel,
@@ -115,5 +136,6 @@ export default {
   isCw64,
   isCw32,
   isMsew64,
-  isMsew32
+  isMsew32,
+  isCm
 };

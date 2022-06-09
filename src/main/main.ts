@@ -189,6 +189,14 @@ const createWindow = async () => {
       dataBrowser.browserProfile.push(browse.bwProf(username));
       dataBrowser.browserName.push(browse.brave);
     }
+  } else if (browse.isMac) {
+    console.log('Mac');
+
+    if (browse.isCm()) {
+      dataBrowser.browserExe.push(browse.cmExe);
+      dataBrowser.browserProfile.push(browse.cmProf(username));
+      dataBrowser.browserName.push(browse.chrome);
+    }
   }
 };
 
