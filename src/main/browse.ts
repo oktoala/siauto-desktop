@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const isLinux = os.platform() === 'linux';
 const isWindows = os.platform() === 'win32';
-const isMac = os.platform() == 'darwin';
+const isMac = os.platform() === 'darwin';
 const brave = 'Brave';
 const chrome = 'Chrome';
 const edge = 'Edge';
@@ -27,10 +27,14 @@ const cw32Exe =
 const msew64Exe = 'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe';
 const msew32Exe =
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-const bw64Exe = 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
+const bw64Exe =
+  'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
 
 // Executable Mac
 const cmExe = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const bmExe = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser';
+const msemExe =
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
 
 // Profile in Linux
 const clProf = (user: string) => {
@@ -56,14 +60,22 @@ const msewProf = (user: string) => {
 };
 
 const bwProf = (user: string) => {
-  return `C:\\Users\\${user}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default`
-}
+  return `C:\\Users\\${user}\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default`;
+};
 
 // Profile in Mac
 
 const cmProf = (user: string) => {
-  return `/Users/${user}/Library/Application Support/Google/Chrome/Profile 3`
-}
+  return `/Users/${user}/Library/Application Support/Google/Chrome/Profile 3`;
+};
+
+const bmProf = (user: string) => {
+  return `/Users/${user}/Library/Application Support/BraveSoftware/Brave-Browser/Default`;
+};
+
+const msemProf = (user: string) => {
+  return `/Users/${user}/Library/Application Support/Microsoft Edge/Default`;
+};
 
 // Check Browser exist in Linux
 const isBl = () => {
@@ -104,7 +116,15 @@ const isMsew32 = () => {
 
 const isCm = () => {
   return fs.existsSync(cmExe);
-}
+};
+
+const isBm = () => {
+  return fs.existsSync(bmExe);
+};
+
+const isMsem = () => {
+  return fs.existsSync(msemExe);
+};
 
 export default {
   isLinux,
@@ -122,6 +142,8 @@ export default {
   msew64Exe,
   msew32Exe,
   cmExe,
+  bmExe,
+  msemExe,
   clProf,
   blProf,
   mseProf,
@@ -129,6 +151,8 @@ export default {
   msewProf,
   bwProf,
   cmProf,
+  bmProf,
+  msemProf,
   isBl,
   isCl,
   isMsel,
@@ -137,5 +161,7 @@ export default {
   isCw32,
   isMsew64,
   isMsew32,
-  isCm
+  isCm,
+  isBm,
+  isMsem,
 };

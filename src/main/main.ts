@@ -197,6 +197,17 @@ const createWindow = async () => {
       dataBrowser.browserProfile.push(browse.cmProf(username));
       dataBrowser.browserName.push(browse.chrome);
     }
+
+    if (browse.isBm()) {
+      dataBrowser.browserExe.push(browse.bmExe);
+      dataBrowser.browserProfile.push(browse.bmProf(username));
+      dataBrowser.browserName.push(browse.brave);
+    }
+    if (browse.isMsem()) {
+      dataBrowser.browserExe.push(browse.msemExe);
+      dataBrowser.browserProfile.push(browse.msemProf(username));
+      dataBrowser.browserName.push(browse.edge);
+    }
   }
 };
 
